@@ -346,3 +346,49 @@ foreach($lastArray as $isLarge){
 echo '<br>';
 echo $largestNumber;
 ?>
+$array = [];
+while (count($array) < 101) $array[] = rand(0, 300);
+echo 'Sugeneruokite 101 elemento masyvą:<br>';
+print_r($array);
+//
+echo '<br><br>Pasikartojancius pakeist:<br>';
+foreach ($array as $key => $item) {
+    while (count(array_keys($array, $array[$key])) > 1) {
+        $array[$key] = rand(0, 300);
+    }
+}
+print_r($array);
+// RUSIAVIMAS KAI ISKART VISKA SURUSIUOJA KAIP REIKIA, MODULIS NIEKADA NEBUS DIDESNSI UZ 30
+// Jeigu sumų skirtumas (modulis, absoliutus dydis) yra didesnis nei | 30 | rūšiavimą kartokite.
+// (Kad sumos nesiskirtų viena nuo kitos daugiau nei per 30)
+echo '<br><br>Rusiavimas:<br>';
+function middleSort($array)
+{
+    $arrayNew = [];
+    array_push($arrayNew, max($array));
+    $array = array_diff($array, [max($array)]);
+    while (count($array) > 0) {
+        $sum1 = array_sum(array_slice($arrayNew, 0, count($arrayNew) / 2));
+        $sum2 = array_sum(array_slice($arrayNew, count($arrayNew) / 2 + 1));
+        if ($sum1 > $sum2) {
+            array_push($arrayNew, max($array));
+            $array = array_diff($array, [max($array)]);
+            array_unshift($arrayNew, max($array));
+            $array = array_diff($array, [max($array)]);
+        } else {
+            array_unshift($arrayNew, max($array));
+            $array = array_diff($array, [max($array)]);
+            array_push($arrayNew, max($array));
+            $array = array_diff($array, [max($array)]);
+        }
+    }
+    return $arrayNew;
+}
+$array = middleSort($array);
+$sum1 = array_sum(array_slice($array, 0, count($array) / 2));
+$sum2 = array_sum(array_slice($array, count($array) / 2 + 1));
+$module = abs($sum1 - $sum2);
+echo "<br><br>Modulis: $module<br>";
+echo '<pre>';
+print_r($array);
+echo '</pre>';
