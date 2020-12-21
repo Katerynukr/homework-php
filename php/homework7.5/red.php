@@ -13,11 +13,11 @@ kad paspaudus ant  linko puslapis ne tiesiog persikrautų, o PHP kodas
 (iš raudono į mėlyną ir atvirkščiai).
 </p>
 <?php
-echo  '<style>html{background-color: blue;}</style>';
+echo  '<style>html{background-color: red;}</style>';
 
-if(isset($_GET['blue'])){
-    header("Location: http://localhost/try/php/homework7.5/red.php");
+if(isset($_GET['main'])){
+    header("Location: http://localhost/try/php/homework7.5/blue.php");
     exit;
 }
 ?>
-<a  href="?blue" name="blue">blue</a>
+<a  href="?main" name="red">red</a>
