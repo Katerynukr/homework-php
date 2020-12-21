@@ -31,37 +31,44 @@ echo task2(6, 'Hello,world!');
 <?php
 $string =  md5(time());
 echo $string;
-$final = '';
-$numeric ='';
-for($i=0; $i<strlen($string);$i++){
-    if(is_numeric($string[$i]) && empty($numeric) && (!is_numeric($string[$i+1]))){
-        $numeric .= '<h1>';
-        $numeric .=$string[$i];
-        $numeric .= '</h1>';
-        $final .= $numeric;
-        $numeric = '';
-        echo $string[$i];
-    } elseif(is_numeric($string[$i]) && empty($numeric) && is_numeric($string[$i+1])){
-        $numeric .= '<h1>';
-        $numeric .=$string[$i];
-    }elseif(is_numeric($string[$i])&& is_numeric($string[$i+1])&& !empty($numeric)){
-         $numeric .=$string[$i];
-    } elseif(is_numeric($string[$i])&& !is_numeric($string[$i+1])&& !empty($numeric)){
-        $numeric .=$string[$i];
-        $numeric .= '</h1>';
-        $final .= $numeric;
-        $numeric = '';
-    } elseif(is_numeric($string[$i])&& [i+1] ===strlen($string) ){
-        $numeric .=$string[$i];
-        $numeric .= '</h1>';
-        $final .= $numeric;
-        $numeric = '';
-    } else{
-       $final .= '<h1>';
-       $final .=  $string[$i];
-       $final .= '</h1>';
+
+echo preg_replace_callback('/\d+/m',function($matches){
+    foreach($matches as $index=>$letter){
+        return "<h1>$matches[$index]</h1>";
     }
-}
+} ,$string );
+
+// $final = '';
+// $numeric ='';
+// for($i=0; $i<strlen($string);$i++){
+//     if(is_numeric($string[$i]) && empty($numeric) && (!is_numeric($string[$i+1]))){
+//         $numeric .= '<h1>';
+//         $numeric .=$string[$i];
+//         $numeric .= '</h1>';
+//         $final .= $numeric;
+//         $numeric = '';
+//         echo $string[$i];
+//     } elseif(is_numeric($string[$i]) && empty($numeric) && is_numeric($string[$i+1])){
+//         $numeric .= '<h1>';
+//         $numeric .=$string[$i];
+//     }elseif(is_numeric($string[$i])&& is_numeric($string[$i+1])&& !empty($numeric)){
+//          $numeric .=$string[$i];
+//     } elseif(is_numeric($string[$i])&& !is_numeric($string[$i+1])&& !empty($numeric)){
+//         $numeric .=$string[$i];
+//         $numeric .= '</h1>';
+//         $final .= $numeric;
+//         $numeric = '';
+//     } elseif(is_numeric($string[$i])&& [i+1] ===strlen($string) ){
+//         $numeric .=$string[$i];
+//         $numeric .= '</h1>';
+//         $final .= $numeric;
+//         $numeric = '';
+//     } else{
+//        $final .= '<h1>';
+//        $final .=  $string[$i];
+//        $final .= '</h1>';
+//     }
+// }
 
 // for($i=0; $i<strlen($string);$i++){
 //     if(is_numeric($string[$i])){
@@ -89,7 +96,7 @@ for($i=0; $i<strlen($string);$i++){
 //     }
 
 // }
-echo $final;
+// echo $final;
 ?>
 
 <p>-----------------------------------</p>
@@ -315,7 +322,38 @@ print_r($array);
 ?>
 <p>-----------------------------------</p>
 <p>Ex: 11.</p>
-<p>Sugeneruokite masyvą, kurio ilgis atsitiktinai kinta nuo 10 iki 100. Masyvo reikšmes sudaro atsitiktiniai skaičiai 0-100 ir masyvai Santykis skaičiuojamas atsitiktinai, bet taip, kad skaičiai sudarytų didesnę dalį nei masyvai. Reikšmių masyvų gylis nuo 1 iki 5, o reikšmės analogiškos (nuo 50% iki 100% atsitiktiniai skaičiai 0-100, o likusios masyvai) ir t.t. kol visos galutinės reikšmės bus skaičiai ne masyvai. Suskaičiuoti kiek elementų turi masyvas. Suskaičiuoti masyvo elementų (tie kurie ne masyvai) sumą. Suskaičiuoti maksimalų masyvo gylį. Atvaizduokite masyvą grafiškai . Masyvą pavazduokite kaip div elementą, kuris yra display:flex, kurio viduje yra skaičiai. Kiekvienas div elementas turi savo unikalų id ir unikalią background spalvą (spalva pvz nepavaizduota). pvz: <div id=”M1”>10, 46, 67, <div id=”M2”> 89, 45, 89, 34, 90, <div id=”M3”> 84, 97 </div> 90, 56 </div> </div>
+<p>Sugeneruokite masyvą, kurio ilgis atsitiktinai kinta nuo 10 iki 100. 
+Masyvo reikšmes sudaro atsitiktiniai skaičiai 0-100 ir masyvai Santykis skaičiuojamas atsitiktinai,
+ bet taip, kad skaičiai sudarytų didesnę dalį nei masyvai. Reikšmių masyvų gylis nuo 1 iki 5, 
+ o reikšmės analogiškos (nuo 50% iki 100% atsitiktiniai skaičiai 0-100, o likusios masyvai) ir t.t.
+  kol visos galutinės reikšmės bus skaičiai ne masyvai. Suskaičiuoti kiek elementų turi masyvas. 
+  Suskaičiuoti masyvo elementų (tie kurie ne masyvai) sumą. Suskaičiuoti maksimalų masyvo gylį. 
+  Atvaizduokite masyvą grafiškai . Masyvą pavazduokite kaip div elementą, kuris yra display:flex,
+   kurio viduje yra skaičiai. Kiekvienas div elementas turi savo unikalų id ir unikalią background 
+   spalvą (spalva pvz nepavaizduota). pvz: <div id=”M1”>10, 46, 67, <div id=”M2”> 89, 45, 89, 34, 90, 
+   <div id=”M3”> 84, 97 </div> 90, 56 </div> </div>
 </p>
 <?php
-
+function arrayCreate(){
+    $arr = [];
+    $innerArr = rand(1,5);
+    $arrLength = rand(10,100);
+    $randNumbersAmount = ($arrLength * (rand(50, 100))/100);
+    $randArrayLength = $arrLength - $randNumbersAmount;
+    foreach(range(0, $arrLength) as $index=>$element){
+        if($index < $randNumbersAmount){
+            $arr[] = rand(0, 100);
+            echo 'aaa<br>';
+        } else{ 
+            if($innerArr !== 1){
+                echo 'bbbb<br>';
+                $arr[] =  arrayCreate();
+            } else {
+                $arr[] = 0;
+            }
+        }
+    }
+    return $arr;
+}
+    print_r(arrayCreate());
+?>
