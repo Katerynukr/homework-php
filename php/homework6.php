@@ -198,6 +198,30 @@ function rec($times){
 }
 
 print_r(rec(5));
+// function task7() {
+//     $arraysContainer = [];
+//     $depth = rand(10, 30);
+//     for ($i = 0; $i < $depth; $i++) {
+//         $arrLength = rand(10,20);
+//         $tempArray = [];
+//         for ($j = 0; $j < $arrLength; $j++) {
+//             if ($j != $arrLength-1) {
+//                 $tempArray[] = rand(0, 10); 
+//             } 
+//         }
+//         $arraysContainer[] = $tempArray; 
+//     }
+//     $arrayOfArrays = [];
+//     for ($i = $depth-1; $i > -1; $i--) {
+//         if ($i+1 < $depth-1) {
+//             $arraysContainer[$i][] = $arraysContainer[$i+1];
+//         } else {
+//             $arraysContainer[$i][] = 0;
+//         }
+//     }
+//     return $arraysContainer[0];
+// }
+// var_dump(task7());
 
 ?>
 <p>-----------------------------------</p>
@@ -321,7 +345,7 @@ sumOfPrimitive($array);
 print_r($array);
 ?>
 <p>-----------------------------------</p>
-<p>Ex: 11.</p>
+<!-- <p>Ex: 11.</p>
 <p>Sugeneruokite masyvą, kurio ilgis atsitiktinai kinta nuo 10 iki 100. 
 Masyvo reikšmes sudaro atsitiktiniai skaičiai 0-100 ir masyvai Santykis skaičiuojamas atsitiktinai,
  bet taip, kad skaičiai sudarytų didesnę dalį nei masyvai. Reikšmių masyvų gylis nuo 1 iki 5, 
@@ -356,4 +380,4 @@ function arrayCreate(){
     return $arr;
 }
     print_r(arrayCreate());
-?>
+?> -->
