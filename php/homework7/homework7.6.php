@@ -22,11 +22,12 @@ geltonai- kai iš POST.
 <button type="submit">post</button>
 </form>
 <?php
-if(isset($_GET['color'])){
-    echo  '<style>html{background-color: green;}</style>';
-}
-if(isset($_POST['color'])){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo 'POST METODAS';
     echo  '<style>html{background-color: yellow;}</style>';
 }
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    echo 'GET METODAS';
+    echo  '<style>html{background-color: green;}</style>';
+}
 ?>
-<!-- what ? does in action? why was not working without it? -->

@@ -7,27 +7,30 @@
     <title> WEB mechanika #1 </title>
 </head>
 <p>
-Pakartokite 6 uždavinį. Papildykite jį kodu, kuris naršyklę po POST metodo
- peradresuotų tuo pačiu adresu (t.y. į patį save) jau GET metodu.
+Padarykite puslapį su dviem mygtukais. Mygtukus įdėkite į dvi 
+skairtingas formas- vieną GET ir kitą POST. Nenaudodami jokių 
+konkrečių $_GET ar $_POST reikšmių, o tik tikrindami pačius masyvus, 
+nuspalvinkite foną žaliai, kai paspaustas mygtukas iš GET formos ir 
+geltonai- kai iš POST.
 </p>
 <form action="?" method="get">
-<input type="text" name="color" value="<?= $_GET['color'] ?? '' ?>">
-<button type="submit">get</button>
+<button type="submit" name="color" value="get">get</button>
 </form>
 <form action="?" method="post">
-<input type="text" name="color" value="<?= $_POST['color'] ?? '' ?>">
-<button type="submit">post</button>
+<button type="submit" name="color" value="post">post</button>
 </form>
 <?php
-if(isset($_GET['color'])){
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    echo 'POST METODAS';
+    echo  '<style>html{background-color: yellow;}</style>';
+    // header("refresh:1; url=?color=get");
+    header("Location: http://localhost/try/php/homework7/homework7.7.php?color=get");
+    exit('POST METODAS');
+}
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    echo 'GET METODAS';
     echo  '<style>html{background-color: green;}</style>';
 }
-if(isset($_POST['color'])){
-    echo  '<style>html{background-color: yellow;}</style>';
-    if(!empty($_POST)){
-        header("Location: http://localhost/try/php/homework7.6.php");
-        exit;
-    }
-}
 ?>
-<!-- why was not working -->
+
+<!-- why when using location 302 and 200 but url just 200???? -->

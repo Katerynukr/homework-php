@@ -24,6 +24,3 @@ echo  '<style>html{background-color: black;}</style>';
 ?>
 <a  href="?color=1">homework7</a><br>
 <a  href="?">homework7</a>
-<!-- 1 DOES IT METTER WHERE DECLARE A BEFORE SCRIPT OR AFTER
-2 WA NOT WORKING IS COMBINED ISSET AND 1 === 
-what does ?? mean-->

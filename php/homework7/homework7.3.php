@@ -22,6 +22,3 @@ if(!empty($_GET)){
     echo '<style>html{background-color:#'.$colorCode . ';}</style>';
 }
 ?>
-
-
-<!-- what does this part means "$_GET['color'] ?? '' ?>"> -->
