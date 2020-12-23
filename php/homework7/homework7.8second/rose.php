@@ -1,15 +1,10 @@
 <?php
-session_start();
-$_SESSION['page1'] = 'pink';
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $coockie = setcookie('pink', 'redirection');
-    header("Location: http://localhost/try/php/homework7/homework7.8/rose.php");
-    exit;
+if($_SERVER['REQUEST_METHOD'] === 'GET'){
+    header("Location http://localhost/try/php/homework7/homework7.8second/pink.php");
+    die;
 }
+print_r($_POST);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 </head>
 <style>
 body {
-    background: pink;
+    background: #ff007f;
 }
 body a {
     color: #777;
@@ -30,10 +25,5 @@ Sukurkite du puslapius pink.php ir rose.php. Nuspalvinkite juos atitinkamo spalv
 kad ji atsidarinėtų rose.php puslapyje. Padarykite taip, kad surinkus naršyklėje tiesiogiai 
 adresą į rose.php puslapį, naršyklė būtų peradresuojama į pink.php puslapį. 
 </p>
-<form method="POST">
-<button type="submit">GO TO ROSE</button>
-</form>
+
 </body>
-
-
-<!-- how to make it with session -->

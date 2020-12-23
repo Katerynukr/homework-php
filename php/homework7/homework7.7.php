@@ -23,7 +23,7 @@ geltonai- kai iš POST.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo 'POST METODAS';
     echo  '<style>html{background-color: yellow;}</style>';
-    // header("refresh:1; url=?color=get");
+    // header("refresh:1; url=?color=get"); <-----not to use
     header("Location: http://localhost/try/php/homework7/homework7.7.php?color=get");
     exit('POST METODAS');
 }
@@ -32,5 +32,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo  '<style>html{background-color: green;}</style>';
 }
 ?>
-
-<!-- why when using location 302 and 200 but url just 200???? -->

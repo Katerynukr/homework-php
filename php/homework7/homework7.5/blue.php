@@ -16,7 +16,7 @@ kad paspaudus ant  linko puslapis ne tiesiog persikrautų, o PHP kodas
 echo  '<style>html{background-color: blue;}</style>';
 
 if(isset($_GET['blue'])){
-    header("Location: http://localhost/try/php/homework7.5/red.php");
+    header("Location: http://localhost/try/php/homework7/homework7.5/red.php");
     exit;
 }
 ?>

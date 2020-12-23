@@ -14,11 +14,9 @@ nuspalvinkite foną žaliai, kai paspaustas mygtukas iš GET formos ir
 geltonai- kai iš POST.
 </p>
 <form action="?" method="get">
-<input type="text" name="color" value="<?= $_GET['color'] ?? '' ?>">
 <button type="submit">get</button>
 </form>
 <form action="?" method="post">
-<input type="text" name="color" value="<?= $_POST['color'] ?? '' ?>">
 <button type="submit">post</button>
 </form>
 <?php
@@ -31,3 +29,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo  '<style>html{background-color: green;}</style>';
 }
 ?>
+<!-- is it the only way -->

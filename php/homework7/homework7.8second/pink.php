@@ -1,12 +1,3 @@
-<?php
-session_start();
-$_SESSION['page1'] = 'pink';
-if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $coockie = setcookie('pink', 'redirection');
-    header("Location: http://localhost/try/php/homework7/homework7.8/rose.php");
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,10 +21,7 @@ Sukurkite du puslapius pink.php ir rose.php. Nuspalvinkite juos atitinkamo spalv
 kad ji atsidarinėtų rose.php puslapyje. Padarykite taip, kad surinkus naršyklėje tiesiogiai 
 adresą į rose.php puslapį, naršyklė būtų peradresuojama į pink.php puslapį. 
 </p>
-<form method="POST">
+<form action="rose.php" method="POST">
 <button type="submit">GO TO ROSE</button>
 </form>
 </body>
-
-
-<!-- how to make it with session -->

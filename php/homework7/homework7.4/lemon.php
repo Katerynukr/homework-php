@@ -14,7 +14,7 @@ veikimą.
 <?php
 echo  '<style>html{background-color: yellow;}</style>';
 
-header("Location: http://localhost/try/php/homework7.4/orange.php");
+header("Location: http://localhost/try/php/homework7/homework7.4/orange.php");
 exit;
 
 ?>
