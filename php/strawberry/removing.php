@@ -105,7 +105,7 @@ if(isset($_POST['collect'])){
     <div class="description">
     Strawberry number : <?= $strawberry['bushNumber'] ?>
     You can collect from the bush : <?= $strawberry['berryQuantity'] ?> berries.
-    <input type="text" name="howMany[<?= $strawberry['bushNumber']?>]" value="<?=$_POST['howMany']?>">
+    <input type="text" id="berryNumbers" name="howMany[<?= $strawberry['bushNumber']?>]" value="<?=$_POST['howMany']?>" onkeyup="return checkup(this);">
     <button type="submit" name="collect" value="<?= $strawberry['bushNumber'] ?>">Collect</button>
     <button type="submit" id="collectAll" name="collectALL" value="<?= $strawberry['bushNumber'] ?>">Collect all berries</button>
     </div>
@@ -114,6 +114,10 @@ if(isset($_POST['collect'])){
     <button id="btn" type="submit" name="remove">Remove all garden</button>
 </form> 
 <script>
+function  checkup(input) {
+    input.value = input.value.replace(/[^\d]/g, '');
+};
+
 </script>
 </body>
 </html>
