@@ -29,4 +29,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo  '<style>html{background-color: green;}</style>';
 }
 ?>
-<!-- is it the only way -->

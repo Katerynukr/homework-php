@@ -2,8 +2,7 @@
 if (isset($_GET['color'])) {
     if ( 1 == $_GET['color']) {
         $backgroundColor = '#ff0000';
-    } 
-    if ( 2 == $_GET['color']) {
+    } elseif ( 2 == $_GET['color']) {
         $backgroundColor = '#0000ff';
     } else {
         $backgroundColor = '#'.$_GET['color'];
@@ -12,7 +11,6 @@ if (isset($_GET['color'])) {
 else {
     $backgroundColor = 'black';
 }
-?>
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +29,9 @@ body a {
 </style>
 <body>
     
-    <a href="http://localhost/try/php/homework7/homework7.1.correction.php?color=1">MAKE RED</a>
-    <a href="http://localhost/try/php/homework7/homework7.1.correction.php?color=2">MAKE BLUE</a>
-    <a href="http://localhost/try/php/homework7/homework7.1.correction.php">MAKE BLACK</a>
+    <a href="http://localhost/try/php/homework7/homework7.2.correction.php?color=1">MAKE RED</a>
+    <a href="http://localhost/try/php/homework7/homework7.2.correction.php?color=2">MAKE BLUE</a>
+    <a href="http://localhost/try/php/homework7/homework7.2.correction.php">MAKE BLACK</a>
 
 </body>
 

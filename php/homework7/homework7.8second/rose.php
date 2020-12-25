@@ -1,6 +1,6 @@
 <?php
 if($_SERVER['REQUEST_METHOD'] === 'GET'){
-    header("Location http://localhost/try/php/homework7/homework7.8second/pink.php");
+    header("Location: http://localhost/try/php/homework7/homework7.8second/pink.php");
     die;
 }
 print_r($_POST);
