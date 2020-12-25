@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 
 /*does session exist*/
@@ -7,15 +7,31 @@ if(!isset($_SESSION['berry'])){
     $_SESSION['strawberryID'] = 0;
 }
 
-/*growing berries*/
-if(isset($_POST['grow'])){
-
-  foreach($_SESSION['berry'] as &$strawberry){
-      $strawberry['berryQuantity'] += $_POST['strawberry'][$strawberry['bushNumber']];
-  }
-    header('Location: http://localhost/try/php/strawberry/growing.php');
+/*growing a bush*/
+if(isset($_POST['plant'])){
+    $rand = rand(2,4);
+    $imgPath = "./img/strawberry$rand.jpg";
+    $_SESSION['berry'][] =[
+        'bushNumber' => ++$_SESSION['strawberryID'],
+        'berryQuantity'=> 0,
+        'imgPath'=> $imgPath
+        
+    ];
+    header('Location: http://localhost/try/php/strawberry/planting.php');
     exit;
 }
+
+/*deleating a bush*/
+if(isset($_POST['delete'])){
+    foreach($_SESSION['berry'] as $id => $strawberry){
+        if($_POST['delete'] == $strawberry['bushNumber']){
+            unset($_SESSION['berry'][$id]);
+            header('Location: http://localhost/try/php/strawberry/planting.php');
+            exit;   
+        }
+    }
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -59,14 +75,13 @@ if(isset($_POST['grow'])){
     <div class="strawberry">
     <img src=<?=$strawberry['imgPath'] ?>>
     <div class="description">
-    <?php $toGrow = rand(3, 7) ?>
-    <input type="hidden" name="strawberry[<?= $strawberry['bushNumber']?>]" value="<?= $toGrow?>">
+    Strawberry number : <?= $strawberry['bushNumber'] ?>
     Number of berries : <?= $strawberry['berryQuantity'] ?>
-    + <?= $toGrow?>
+    <button type="submit" name="delete" value="<?= $strawberry['bushNumber'] ?>">Delete</button>
     </div>
     </div>
     <?php endforeach ?>
-    <button id="btn" type="submit" name="grow">Grow berries</button>
+    <button id="btn" type="submit" name="plant">Grow new bush</button>
 </form> 
 </body>
 </html>
