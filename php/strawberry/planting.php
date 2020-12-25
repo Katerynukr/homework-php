@@ -7,7 +7,7 @@ if(!isset($_SESSION['berry'])){
     $_SESSION['strawberryID'] = 0;
 }
 
-/*growing a bush*/
+/*planting a bush*/
 if(isset($_POST['plant'])){
     $rand = rand(2,4);
     $imgPath = "./img/strawberry$rand.jpg";
