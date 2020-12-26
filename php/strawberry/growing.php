@@ -51,9 +51,23 @@ if(isset($_POST['grow'])){
         display:inline-block;
         font-size:20px;
     }
+    .nav{
+        display:inline-block;
+        width:100%;
+    }
+    .nav > a{
+        text-decoration: none;
+        margin-left: 10px;
+        border: 1px solid black;
+    }
 </style>
 </head>
 <body>
+<div class="nav">
+    <a href="http://localhost/try/php/strawberry/planting.php">go to plant</a>
+    <a href="http://localhost/try/php/strawberry/removing.php">go to collect</a>
+    <a href="http://localhost/try/php/strawberry/growing.php">go to grow</a>
+</div>
 <form action="" method="post">
     <?php foreach($_SESSION['berry'] as $strawberry): ?>
     <?php 
