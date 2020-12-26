@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> WEB mechanika #7.9 </title>
+    <title> WEB mechanika #7.10 </title>
 </head>
 <style>
 body {
@@ -19,9 +19,8 @@ body {
 </style>
 <body>
 <p>
-Padarykite juodą puslapį, kuriame būtų POST forma, mygtukas ir atsitiktinis kiekis (3-10) 
-checkbox su raidėm A,B,C… Padarykite taip, kad paspaudus mygtuką, fono spalva pasikeistų 
-į baltą, forma išnyktų ir atsirastų skaičius, rodantis kiek buvo pažymėta checkboksų (ne kurie, o kiek). 
+Pakartokite 9 uždavinį. Padarykite taip, kad atsirastų du skaičiai. 
+Vienas rodytų kiek buvo pažymėta, o kitas kiek iš vis buvo jų sugeneruota. 
 </p>
 <?php if($_SERVER['REQUEST_METHOD'] === 'GET'):?>
     <form action="" method="post">
@@ -34,6 +33,6 @@ checkbox su raidėm A,B,C… Padarykite taip, kad paspaudus mygtuką, fono spalv
     <button type="submit" name="submit">Submit</button>
 <?php endif ?>
 <?php if($_SERVER['REQUEST_METHOD'] === 'POST'):?>
-Number of checkboxes that were pressed: <?= count($_POST['letters'] ?? [])?>
+Number of checkboxes that were pressed: <?= count($_POST['letters'] ?? [])?> from <?= $_POST['max']?>
 <?php endif ?>
 </body>
