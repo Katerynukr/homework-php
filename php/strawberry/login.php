@@ -95,7 +95,7 @@ body{
                 
 </style>
 <body>
-<div class="text1">To login you can use username: Kateryna and password: 202cb962ac59075b964b07152d234b70. Or create your own.</div>
+<div class="text1">To login you can use username: Kateryna and password: 202cb962ac59075b964b07152d234b70.</div>
 <div class="main">
     <div class="text"><?= $msg ?? '' ?></div>
     <form action="" method="POST">

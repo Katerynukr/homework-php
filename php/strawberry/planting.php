@@ -116,7 +116,8 @@ if(isset($_POST['delete'])){
                     text-shadow: 2px 0 0 #fff5ec;
                     font-weight: bold;
                 }
-                .btn-s{
+                .btn-s,
+                .btn-m{
                     background-color:#ccae94;
                     border: 2px solid #b29881;
                     border-radius:10px;
@@ -126,9 +127,17 @@ if(isset($_POST['delete'])){
                     margin-left:15px;
                     outline: 0 solid #b29881;
                 }
-                .btn-s:hover{
+                .btn-s:hover,
+                .btn-m:hover{
                     background-color:#b29881;
                     border: 2px solid #ccae94;
+                }
+                .btn-m{
+                    display:inline-block;
+                    float:right;
+                    text-decoration:none;
+                    padding: 10px;
+                    margin:10px;
                 }
             #btn{
                 width: 180px;
@@ -150,7 +159,7 @@ if(isset($_POST['delete'])){
 </style>
 </head>
 <body>
-<a href="login.php?logout">Log out</a>
+<a href="login.php?logout" class="btn-m">Log out</a>
 <div class="nav">
     <a href="http://localhost/try/php/strawberry/planting.php">go to plant</a>
     <a href="http://localhost/try/php/strawberry/removing.php">go to collect</a>
