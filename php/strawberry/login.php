@@ -8,14 +8,14 @@ if (isset($_GET['logout'])) {
 }
 
 if (isset($_SESSION['logged']) && 1 == $_SESSION['logged']) {
-    die('Tu prisijunges eik is cia!');
+    die('You are already logged in');
 }
 
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     $data = json_decode(file_get_contents('data.json'), 1);
     foreach($data as $user) {
         if (($_POST['name'] ?? '') === $user['name'] &&
-            md5($_POST['pass'] ?? '') === $user['pass']
+            ($_POST['pass'] ?? '') === $user['pass']
         ) {
             $_SESSION['name'] = $user['name'];
             $_SESSION['logged'] = 1;

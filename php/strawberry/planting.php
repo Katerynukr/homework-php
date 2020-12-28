@@ -1,6 +1,10 @@
 <?php 
 session_start();
 
+if(!isset($_SESSION['logged']) || 1 != $_SESSION['logged']) {
+    header('Location: http://localhost/try/php/strawberry/login.php');
+    die;
+}
 /*does session exist*/
 if(!isset($_SESSION['berry'])){
     $_SESSION['berry'] = [];
@@ -146,6 +150,7 @@ if(isset($_POST['delete'])){
 </style>
 </head>
 <body>
+<!-- <a href="login.php?logout">Log out</a> -->
 <div class="nav">
     <a href="http://localhost/try/php/strawberry/planting.php">go to plant</a>
     <a href="http://localhost/try/php/strawberry/removing.php">go to collect</a>
