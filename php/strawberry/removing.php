@@ -66,42 +66,125 @@ if(isset($_POST['collect'])){
     <title>Document</title>
 <style>
     body{
-        background-color: beige;
+        background-color: #FFDAB9;
     }
 
-    form{
-        display:inline-block;
-    }
-    img{
-        object-fit: contain;
-        object-position: center;
-        height:50px;
-    }
-    .strawberry{
-        display:inline-block;
-        width:100%;
-        border: 2px solid red;
-        padding-top:5px;
-        padding-bottom:5px;
-        margin-top:5px;
-        margin-bottom:5px;
-    }
-    .description{
-        display:inline-block;
-        font-size:20px;
-    }
-    #collectAll{
-        display: <?= $visibility ?>;
-    }
-    .nav{
-        display:inline-block;
-        width:100%;
-    }
-    .nav > a{
-        text-decoration: none;
-        margin-left: 10px;
-        border: 1px solid black;
-    }
+        form{
+            /* display:inline-block; */
+        }
+            .nav{
+                display:inline-block;
+                width:100%;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                text-align:center;
+                margin-top:40px;
+            }
+                .nav > a{
+                    text-decoration: none;
+                    margin-left: 10px;
+                    border: 2px solid #ccae94;
+                    margin: 30px;
+                    background-color:#fff7f1;
+                    padding: 25px;
+                    border-radius: 15px;
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #ccae94;
+                    text-shadow: 3px 0 0 #fff5ec;
+                }
+                .nav > a:hover{
+                    background-color:#ccae94;
+                    border: 2px solid #fff5ec;
+                    color:#fff7f1;
+                    font-weight: bolder;
+                    text-shadow: 3px 0 0 #ccae94;
+                    outline: 0 solid #b29881;
+                }
+            .garden{
+                display: inline-block;
+                float:left;
+                width: 1000px;
+                margin-left: calc( (100% - 1000px) / 2 );
+                padding: 50px;
+                border: 15px solid #fff7f1;
+                border-radius:20px;
+                margin-top: 5%;
+            }
+                img{
+                    object-fit: contain;
+                    object-position: center;
+                    height:50px;
+                    padding:5px 5px 0 5px;
+                }
+                .strawberry{
+                    display:inline-block;
+                    width:100%;
+                    border: 4px solid #fff5ec;
+                    border-radius: 15px;
+                    padding-top:5px;
+                    padding-bottom:5px;
+                    margin-top:5px;
+                    margin-bottom:5px;
+                }
+                .strawberry:hover{
+                    background-color: #fff5ec; 
+                    border-color: #e5c4a6;
+                }
+
+                .description{
+                    display:inline-block;
+                    font-size:30px;
+                    color: #ccae94;
+                    text-shadow: 2px 0 0 #fff5ec;
+                    font-weight: bold;
+                }
+                input[type=text]{
+                    line-height:25px;
+                    border-radius:10px;
+                    margin-left: 10px;
+                    width:25px;
+                    color:#ccae94;
+                    font-weight: bolder;
+                    font-size:15px;
+                    outline: 0 solid #b29881;
+                }
+                .btn-s{
+                    background-color:#ccae94;
+                    border: 2px solid #b29881;
+                    border-radius:10px;
+                    font-weight: bold;
+                    color: #fff7f1;
+                    line-height:25px;
+                    outline: 0 solid #b29881;
+                }
+                .btn-s:hover{
+                    background-color:#b29881;
+                    border: 2px solid #ccae94;
+                }
+                .btn-s:last-of-type{
+                    margin-left:40px;
+                }
+
+            #btn{
+                width: 180px;
+                margin-left: calc( (100% - 180px) / 2 );
+                margin-top: 10px;
+                background-color:#ccae94;
+                border: 2px solid #b29881;
+                padding: 25px;
+                font-size: 20px;
+                font-weight: bold;
+                color: #fff7f1;
+                border-radius:20px;
+                outline: 0 solid #b29881;
+            }
+            #btn:hover{
+                background-color:#fff7f1;
+                color: #ccae94;
+                border: 2px solid #b29881;
+                border-radius:20px;
+            }
 </style>
 </head>
 <body>
@@ -111,21 +194,21 @@ if(isset($_POST['collect'])){
     <a href="http://localhost/try/php/strawberry/growing.php">go to grow</a>
 </div>
 <form action="?" method="post">
-    <?php foreach($_SESSION['berry'] as $strawberry): ?>
-    <?php 
-    ?>
-    <div class="strawberry">
-    <img src=<?=$strawberry['imgPath'] ?>>
-    <div class="description">
-    Strawberry number : <?= $strawberry['bushNumber'] ?>
-    You can collect from the bush : <?= $strawberry['berryQuantity'] ?> berries.
-    <input type="text" id="berryNumbers" name="howMany[<?= $strawberry['bushNumber']?>]" value="<?=$_POST['howMany']?>" onkeyup="return checkup(this);">
-    <button type="submit" name="collect" value="<?= $strawberry['bushNumber'] ?>">Collect</button>
-    <button type="submit" id="collectAll" name="collectALL" value="<?= $strawberry['bushNumber'] ?>">Collect all berries</button>
+    <div class="garden">
+        <?php foreach($_SESSION['berry'] as $strawberry): ?>
+        <div class="strawberry">
+        <img src=<?=$strawberry['imgPath'] ?>>
+        <div class="description">
+        Bush # <?= $strawberry['bushNumber'] ?>
+        Possible to collect: <?= $strawberry['berryQuantity'] ?> berries.
+        <input type="text" id="berryNumbers" name="howMany[<?= $strawberry['bushNumber']?>]" value="<?=$_POST['howMany']?>" onkeyup="return checkup(this);">
+        <button class="btn-s" type="submit" name="collect" value="<?= $strawberry['bushNumber'] ?>">Collect</button>
+        <button class="btn-s" type="submit" id="collectAll" name="collectALL" value="<?= $strawberry['bushNumber'] ?>">Collect all berries</button>
+        </div>
+        </div>
+        <?php endforeach ?>
+        <button id="btn" type="submit" name="remove">Remove all garden</button>
     </div>
-    </div>
-    <?php endforeach ?>
-    <button id="btn" type="submit" name="remove">Remove all garden</button>
 </form> 
 <script>
 function  checkup(input) {
