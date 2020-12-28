@@ -150,7 +150,7 @@ if(isset($_POST['delete'])){
 </style>
 </head>
 <body>
-<!-- <a href="login.php?logout">Log out</a> -->
+<a href="login.php?logout">Log out</a>
 <div class="nav">
     <a href="http://localhost/try/php/strawberry/planting.php">go to plant</a>
     <a href="http://localhost/try/php/strawberry/removing.php">go to collect</a>
