@@ -1,16 +1,25 @@
 <?php
 session_start();
 
+/*if logout button was used change value of logged session to 0*/
 if (isset($_GET['logout'])) {
     $_SESSION['logged'] = 0;
     header('Location: http://localhost/try/php/strawberry/login.php');
     die;
 }
 
+/*is sign up button is pressed*/ 
+if(isset($_POST['SignUp'])){
+    header('Location: http://localhost/try/php/strawberry/signUp.php');
+    die;
+}
+
+/*checking is a user alredy logged in*/ 
 if (isset($_SESSION['logged']) && 1 == $_SESSION['logged']) {
     die('You are already logged in');
 }
 
+/*if button login was pressed*/
 if ($_SERVER['REQUEST_METHOD']==='POST') {
     $data = json_decode(file_get_contents('data.json'), 1);
     foreach($data as $user) {
@@ -28,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
     die;
 }
 
+/*checking does error message exist and if does deleate it */
 if (isset($_SESSION['msg'])) {
     $msg = $_SESSION['msg'];
     unset($_SESSION['msg']);
@@ -106,6 +116,7 @@ body{
         <input type="password" name="pass" value="">
         <br><br>
         <input class="btn" type="submit" value="Login">
+        <input class="btn" type="submit" value="SignUp">
     </form>
 </div>
 </body>
