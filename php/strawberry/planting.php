@@ -25,6 +25,32 @@ if(isset($_POST['plant'])){
     exit;
 }
 
+/* planting many bushes at once*/
+if(isset($_POST['howManyPlant'])){
+    $amount = (int) $_POST['howMany'];
+    echo "<p>$amount</p>";
+    if($amount < 0 || $amount > 4){
+        if($amount < 0){
+            $_SESSION['err'] = 1;
+        } elseif($amount > 4){
+            $_SESSION['err'] = 2;
+        }
+        header('Location: http://localhost/try/php/strawberry/planting.php');
+        exit;
+    }
+    foreach(range(1, $amount) as $strawberry){
+        $rand = rand(2,4);
+        $imgPath = "./img/strawberry$rand.png";
+        $_SESSION['berry'][] =[
+            'bushNumber' => ++$_SESSION['strawberryID'],
+            'berryQuantity'=> 0,
+            'imgPath'=> $imgPath
+        ];
+    }
+    header('Location: http://localhost/try/php/strawberry/planting.php');
+    exit;
+}
+
 /*deleating a bush*/
 if(isset($_POST['delete'])){
     foreach($_SESSION['berry'] as $id => $strawberry){
@@ -139,9 +165,20 @@ if(isset($_POST['delete'])){
                     padding: 10px;
                     margin:10px;
                 }
+            input[type=text]{
+                line-height:25px;
+                border-radius:10px;
+                margin-left: 10px;
+                width:25px;
+                color:#ccae94;
+                font-weight: bolder;
+                font-size:20px;
+                padding: 25px;
+                outline: 0 solid #b29881;
+                margin-right: 15px;
+            }
             #btn{
                 width: 180px;
-                margin-left: calc( (100% - 180px) / 2 );
                 margin-top: 10px;
                 background-color:#ccae94;
                 border: 2px solid #b29881;
@@ -151,6 +188,9 @@ if(isset($_POST['delete'])){
                 color: #fff7f1;
                 border-radius:20px;
                 outline: 0 solid #b29881;
+            }
+            #btn:last-of-type{
+             float: right;
             }
             #btn:hover{
                 background-color:#fff7f1;
@@ -167,6 +207,7 @@ if(isset($_POST['delete'])){
 </div>
 <form action="" method="post">
     <div class="garden">
+        <?php include __DIR__.'/error.php' ?>
         <?php foreach($_SESSION['berry'] as $strawberry): ?>
         <div class="strawberry">
         <img src=<?=$strawberry['imgPath'] ?>>
@@ -177,7 +218,9 @@ if(isset($_POST['delete'])){
         </div>
         </div>
         <?php endforeach ?>
-        <button id="btn" type="submit" name="plant">Grow new bush</button>
+        <input type="text" name="howMany">
+        <button id="btn" type="submit" name="howManyPlant">Grow bushes</button>
+        <button id="btn" type="submit" name="plant">Grow one bush</button>
     </div>
 </form> 
 </body>
