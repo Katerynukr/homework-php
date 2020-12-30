@@ -24,7 +24,7 @@ if(isset($_POST['plant'])){
     header('Location: http://localhost/try/php/strawberry/planting.php');
     exit;
 }
-
+_d('sgs');
 /* planting many bushes at once*/
 if(isset($_POST['howManyPlant'])){
     $amount = (int) $_POST['howMany'];

@@ -1,15 +1,14 @@
-//how to deleate img from tag or make them all unique
-//does it work if i will be chacking by the namespace
+//to make each unique
 //do i create an array of pick that are correct and than check if all match or what is the logic?
 
 <?php 
-function RandImg($dir)
-{
+// function RandImg($dir)
+// {
 $images = glob($dir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
-
-$randomImage = $images[array_rand($images)];
-return $randomImage;
-} 
+shuffle($images);
+// $randomImage = $images[array_rand($images)];
+// return $randomImage;
+// } 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,8 +106,8 @@ return $randomImage;
             <table>
 <?php 
     $count = -1;
-    foreach(range(0, 8) as $img){
-        $picture = RandImg('./img/');
+    foreach(range(0, 8) as $index => $img){
+        $picture = $images[$index];
         $count++;
         if($count === 0 || $count === 3 || $count === 6 ){
             echo "<tr>";
