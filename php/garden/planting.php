@@ -37,7 +37,7 @@ if(isset($_POST['howManyPlant'])){
         } elseif($amount > 4){
             $_SESSION['err'] = 2;
         }
-        header('Location: http://localhost/try/php/strawberry/planting.php');
+        header('Location: http://localhost/try/php/garden/planting.php');
         exit;
     }
     foreach(range(1, $amount) as $strawberry){
@@ -49,7 +49,7 @@ if(isset($_POST['howManyPlant'])){
             'imgPath'=> $imgPath
         ];
     }
-    header('Location: http://localhost/try/php/strawberry/planting.php');
+    header('Location: http://localhost/try/php/garden/planting.php');
     exit;
 }
 
@@ -59,7 +59,7 @@ if(isset($_POST['delete'])){
         $bush = serialize($strawberry['bush']);
         if($_POST['delete'] ==  unserialize($bush) -> bushID ){
             unset($_SESSION['garden'][$id]);
-            header('Location: http://localhost/try/php/strawberry/planting.php');
+            header('Location: http://localhost/try/php/garden/planting.php');
             exit;   
         }
     }
@@ -204,9 +204,9 @@ if(isset($_POST['delete'])){
 <body>
 <a href="login.php?logout" class="btn-m">Log out</a>
 <div class="nav">
-    <a href="http://localhost/try/php/strawberry/planting.php">go to plant</a>
-    <a href="http://localhost/try/php/strawberry/removing.php">go to collect</a>
-    <a href="http://localhost/try/php/strawberry/growing.php">go to grow</a>
+    <a href="http://localhost/try/php/garden/planting.php">go to plant</a>
+    <a href="http://localhost/try/php/garden/removing.php">go to collect</a>
+    <a href="http://localhost/try/php/garden/growing.php">go to grow</a>
 </div>
 <form action="" method="post">
     <div class="garden">
@@ -231,3 +231,6 @@ if(isset($_POST['delete'])){
 </form> 
 </body>
 </html>
+ 
+
+<!-- why do we have to use serialize and what for it is used -->

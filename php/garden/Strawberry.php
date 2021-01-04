@@ -7,4 +7,8 @@ class Strawberry{
     public function __construct( int $ID){
         $this->bushID = $ID;
     }
+
+    public function growBerries(int $howMuch){
+        $this->berriesAmount = $this->berriesAmount + $howMuch;
+    }
 }

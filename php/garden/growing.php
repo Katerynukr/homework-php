@@ -1,19 +1,24 @@
 <?php
+include __DIR__.'/Strawberry.php';
 session_start();
 
 /*does session exist*/
-if(!isset($_SESSION['berry'])){
-    $_SESSION['berry'] = [];
-    $_SESSION['strawberryID'] = 0;
+if(!isset($_SESSION['garden'])){
+    $_SESSION['garden'] = [];
+    $_SESSION['ID'] = 0;
 }
 
 /*growing berries*/
 if(isset($_POST['grow'])){
-
-  foreach($_SESSION['berry'] as &$strawberry){
-      $strawberry['berryQuantity'] += $_POST['strawberry'][$strawberry['bushNumber']];
+  foreach($_SESSION['garden'] as &$strawberry){
+      _d($strawberry);
+    $bush = serialize($strawberry['bush']);
+    $howMuch = $_POST['strawberry'][unserialize($bush) -> bushID];
+    _d($howMuch,'---');
+    $strawberry['bush'] -> growBerries($howMuch);
+    // unserialize($bush) ->  berriesAmount += $_POST['strawberry'][unserialize($bush) -> bushID];
   }
-    header('Location: http://localhost/try/php/strawberry/growing.php');
+    header('Location: http://localhost/try/php/garden/growing.php');
     exit;
 }
 ?>
@@ -120,21 +125,21 @@ if(isset($_POST['grow'])){
 </head>
 <body>
 <div class="nav">
-    <a href="http://localhost/try/php/strawberry/planting.php">go to plant</a>
-    <a href="http://localhost/try/php/strawberry/removing.php">go to collect</a>
-    <a href="http://localhost/try/php/strawberry/growing.php">go to grow</a>
+    <a href="http://localhost/try/php/garden/planting.php">go to plant</a>
+    <a href="http://localhost/try/php/garden/removing.php">go to collect</a>
+    <a href="http://localhost/try/php/garden/growing.php">go to grow</a>
 </div>
 <form action="" method="post">
     <div class="garden">
-        <?php foreach($_SESSION['berry'] as $strawberry): ?>
-        <?php 
-        ?>
+        <?php foreach($_SESSION['garden'] as $strawberry): ?>
+        <?php $bush = serialize($strawberry['bush']);?>
+        <?php _d($bush, 'foeach')?>
         <div class="strawberry">
         <img src=<?=$strawberry['imgPath'] ?>>
         <div class="description">
         <?php $toGrow = rand(3, 7) ?>
-        <input type="hidden" name="strawberry[<?= $strawberry['bushNumber']?>]" value="<?= $toGrow?>">
-        Number of berries : <?= $strawberry['berryQuantity'] ?>
+        <input type="hidden" name="strawberry[<?= unserialize($bush) -> bushID ?>]" value="<?= $toGrow?>">
+        Number of berries : <?= unserialize($bush) ->  berriesAmount ?>
         + <?= $toGrow?>
         </div>
         </div>
@@ -144,3 +149,5 @@ if(isset($_POST['grow'])){
 </form> 
 </body>
 </html>
+
+<!-- why was not working method on unserialised object -->
