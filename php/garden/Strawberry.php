@@ -11,4 +11,14 @@ class Strawberry{
     public function growBerries(int $howMuch){
         $this->berriesAmount = $this->berriesAmount + $howMuch;
     }
+
+    public function collectAll(){
+        $this->berriesAmount -= $this->berriesAmount;
+    }
+
+    public function collect($howMuch){
+        if($howMuch <= $this->berriesAmount){
+            $this->berriesAmount -= $howMuch;
+        }
+    }
 }

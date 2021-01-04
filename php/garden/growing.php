@@ -11,10 +11,8 @@ if(!isset($_SESSION['garden'])){
 /*growing berries*/
 if(isset($_POST['grow'])){
   foreach($_SESSION['garden'] as &$strawberry){
-      _d($strawberry);
     $bush = serialize($strawberry['bush']);
     $howMuch = $_POST['strawberry'][unserialize($bush) -> bushID];
-    _d($howMuch,'---');
     $strawberry['bush'] -> growBerries($howMuch);
     // unserialize($bush) ->  berriesAmount += $_POST['strawberry'][unserialize($bush) -> bushID];
   }

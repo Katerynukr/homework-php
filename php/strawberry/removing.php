@@ -201,7 +201,7 @@ if(isset($_POST['collect'])){
         <div class="description">
         Bush # <?= $strawberry['bushNumber'] ?>
         Possible to collect: <?= $strawberry['berryQuantity'] ?> berries.
-        <input type="text" id="berryNumbers" name="howMany[<?= $strawberry['bushNumber']?>]" value="<?=$_POST['howMany']?>" onkeyup="return checkup(this);">
+        <input type="text" id="berryNumbers" name="howMany[<?= $strawberry['bushNumber']?>]" onkeyup="return checkup(this);">
         <button class="btn-s" type="submit" name="collect" value="<?= $strawberry['bushNumber'] ?>">Collect</button>
         <button class="btn-s" type="submit" id="collectAll" name="collectALL" value="<?= $strawberry['bushNumber'] ?>">Collect all berries</button>
         </div>

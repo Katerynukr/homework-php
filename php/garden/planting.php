@@ -212,7 +212,6 @@ if(isset($_POST['delete'])){
     <div class="garden">
         <?php include __DIR__.'/error.php' ?>
         <?php foreach($_SESSION['garden'] as $strawberry): ?>
-        <?php var_dump($strawberry)?>
         <div class="strawberry">
         <img src=<?=$strawberry['imgPath'] ?>>
         <div class="description">
