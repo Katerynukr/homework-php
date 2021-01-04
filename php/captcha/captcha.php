@@ -1,10 +1,40 @@
-//to make each unique
-//do i create an array of pick that are correct and than check if all match or what is the logic?
+<?php
+session_start();
+
+_d($_POST['captcha'], 'post');
+_d($_POST['compare'], 'field');
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if(!isset($_POST['captcha'])){
+        $_SESSION['warn'] = 'You didn not select anything. Try again!';
+        header("Location: http://localhost/try/php/captcha/captcha.php");
+        exit;
+    }else{
+       $decode = _POST['compare'];
+    //    $i = $_POST['captcha'];
+    //    $re = '/f/m';
+    //    foreach($i as $value){
+    //        _d($value, 'jkj');
+    //     foreach($decode as $index => $element){
+    //         if($value == $index){
+    //             $result = preg_match_all($re, $element, $matches, PREG_SET_ORDER, 0);
+    //             if(empty($result)){
+    //                 $_SESSION['warn'] = 'You did not pick the right one!';
+    //                 header("Location: http://localhost/try/php/captcha/captcha.php");
+    //                 exit;
+    //             }
+    //         }
+    //     }
+    //    }
+       
+    }
+}
+?>
 
 <?php 
 // function RandImg($dir)
 // {
-$images = glob($dir . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+$images = glob('./img/' . '*.{jpg,jpeg,png,gif}', GLOB_BRACE);
 shuffle($images);
 // $randomImage = $images[array_rand($images)];
 // return $randomImage;
@@ -99,70 +129,35 @@ shuffle($images);
 <body>
     <div class="example">
         <p>Select all the images that match this one</p>
-        <img src="./img/1237645f11.png">
+        <img src="./imgDefault/1237645f11.png">
     </div>
     <div class="captcha">
-        <form>
+        <form action="" method="post">
             <table>
+            <tr>
+            <?php if(isset($_SESSION['warn'])): ?>
+            <h2 style="color:red;"><?= $_SESSION['warn'] ?></h2>
+            <?php unset($_SESSION['warn'])?>
+            <?php endif ?>
+            </tr>
 <?php 
     $count = -1;
-    foreach(range(0, 8) as $index => $img){
+    foreach(range(0, 8) as $index => $o){
         $picture = $images[$index];
         $count++;
         if($count === 0 || $count === 3 || $count === 6 ){
             echo "<tr>";
         }
         echo "<td>
-                <input type=\"checkbox\" id=\"myCheckbox.$count\" />
+                <input type=\"checkbox\" name=\"captcha[]\" id=\"myCheckbox.$count\" value=\"$count\" />
                 <label for=\"myCheckbox.$count\"><img src=\"$picture\" /></label>
+                <input type=\"hidden\" name=\"compare[]\" value=\"$picture\" />
             </td>";
         if($count === 2 || $count === 5 || $count === 8 ){
             echo "</tr>";
         }
     }
 ?>
-                <!-- <tr>
-                    <td>
-                        <input type="checkbox" id="myCheckbox1" />
-                        <label for="myCheckbox1"><img src="#" /></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" id="myCheckbox2" />
-                        <label for="myCheckbox2"><img src="#" /></label> 
-                    </td>
-                    <td>
-                        <input type="checkbox" id="myCheckbox3" />
-                        <label for="myCheckbox3"><img src="#" /></label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" id="myCheckbox4" />
-                        <label for="myCheckbox4"><img src="#" /></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" id="myCheckbox5" />
-                        <label for="myCheckbox5"><img src="#" /></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" id="myCheckbox6" />
-                        <label for="myCheckbox6"><img src="#" /></label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="checkbox" id="myCheckbox7" />
-                        <label for="myCheckbox7"><img src="#" /></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" id="myCheckbox8" />
-                        <label for="myCheckbox8"><img src="#" /></label>
-                    </td>
-                    <td>
-                        <input type="checkbox" id="myCheckbox9" />
-                        <label for="myCheckbox9"><img src="#" /></label>
-                    </td>
-                </tr> -->
                 <tr>
                     <td></td>
                     <td></td>
