@@ -1,6 +1,7 @@
 <?php 
 
 session_start();
+// session_destroy();
 
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
@@ -14,7 +15,8 @@ if(!isset($_SESSION['garden'])){
 /*planting a strawberry bush*/
 if(isset($_POST['plant'])){
     $id = ++$_SESSION['ID'];
-    $_SESSION['garden'][] = new Strawberry($id);
+    $object = new Strawberry($id);
+    $_SESSION['garden'][] = serialize($object);
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
 }
@@ -22,7 +24,8 @@ if(isset($_POST['plant'])){
 /*planting a blueberyy bush*/
 if(isset($_POST['plantBlueberry'])){
     $id = ++$_SESSION['ID'];
-    $_SESSION['garden'][] =new Blueberry($id);
+    $object = new Blueberry($id);
+    $_SESSION['garden'][] = serialize($object);
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
 }
@@ -42,7 +45,8 @@ if(isset($_POST['howManyPlant'])){
     }
     foreach(range(1, $amount) as $strawberry){
         $id = ++$_SESSION['ID'];
-        $_SESSION['garden'][] = new Strawberry($id);
+        $object = new Strawberry($id);
+        $_SESSION['garden'][] = serialize($object);
     }
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
@@ -62,7 +66,8 @@ if(isset($_POST['howManyBlueberry'])){
     }
     foreach(range(1, $amount) as $blueberry){
         $id = ++$_SESSION['ID'];
-        $_SESSION['garden'][] =new Blueberry($id);
+        $object = new Blueberry($id);
+        $_SESSION['garden'][] = serialize($object);
     }
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
@@ -71,8 +76,8 @@ if(isset($_POST['howManyBlueberry'])){
 /*deleating a bush*/
 if(isset($_POST['delete'])){
     foreach($_SESSION['garden'] as $id => $berry){
-        $bush = serialize($berry);
-        if($_POST['delete'] ==  unserialize($bush) -> bushID ){
+        $bush = unserialize($berry);
+        if($_POST['delete'] ==  $bush -> bushID ){
             unset($_SESSION['garden'][$id]);
             header('Location: http://localhost/try/php/garden/planting.php');
             exit;   
@@ -227,13 +232,13 @@ if(isset($_POST['delete'])){
     <div class="garden">
         <?php include __DIR__.'/error.php' ?>
         <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = serialize($berry);?>
+        <?php $bush = unserialize($berry);?>
         <div class="strawberry">
-        <img src=<?=unserialize($bush) -> imgPath?>>
+        <img src=<?=$bush -> imgPath?>>
         <div class="description">
-        Strawberry number : <?= unserialize($bush) -> bushID ?>
-        Number of berries : <?=  unserialize($bush) ->  berriesAmount?>
-        <button class="btn-s" type="submit" name="delete" value="<?=  unserialize($bush) -> bushID ?>">Delete</button>
+        Strawberry number : <?= $bush -> bushID ?>
+        Number of berries : <?=  $bush ->  berriesAmount?>
+        <button class="btn-s" type="submit" name="delete" value="<?=  $bush -> bushID ?>">Delete</button>
         </div>
         </div>
         <?php endforeach ?>

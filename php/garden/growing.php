@@ -14,11 +14,10 @@ if(!isset($_SESSION['garden'])){
 /*growing berries*/
 if(isset($_POST['grow'])){
   foreach($_SESSION['garden'] as $index => $berry){
-    $bush = serialize($berry);
-    $howMuch = $_POST['berry'][unserialize($bush) -> bushID];
-    $bush = unserialize($bush);
+    $bush = unserialize($berry);
+    $howMuch = $_POST['berry'][$bush -> bushID];
     $bush-> growBerries();
-    $_SESSION['garden'][$index] = $bush;
+    $_SESSION['garden'][$index] = serialize($bush);
     
   }
     header('Location: http://localhost/try/php/garden/growing.php');
@@ -135,14 +134,14 @@ if(isset($_POST['grow'])){
 <form action="" method="post">
     <div class="garden">
         <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = serialize($berry);?>
+        <?php $bush = unserialize($berry);?>
         <?php _d($bush, 'foeach')?>
         <div class="strawberry">
-        <img src=<?=unserialize($bush)->imgPath?>>
+        <img src=<?=$bush->imgPath?>>
         <div class="description">
-        <input type="hidden" name="berry[<?= unserialize($bush) -> bushID ?>]">
-        Number of berries : <?= unserialize($bush) ->  berriesAmount ?>
-        + <?=unserialize($bush) ->toGrow ?>
+        <input type="hidden" name="berry[<?= $bush -> bushID ?>]">
+        Number of berries : <?= $bush ->  berriesAmount ?>
+        + <?=$bush ->toGrow ?>
         </div>
         </div>
         <?php endforeach ?>
