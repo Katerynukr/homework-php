@@ -1,11 +1,12 @@
 <?php
-include __DIR__.'/Strawberry.php';
 session_start();
 
+include __DIR__.'/Strawberry.php';
+include __DIR__.'/Blueberry.php';
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
-    echo 'You cant collect berries!';
+    echo 'You can\'t collect berries!';
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
 }
@@ -18,10 +19,11 @@ function myAlert() {
 
 /*collecting all berries*/
 if(isset($_POST['collectALL'])){
-    foreach($_SESSION['garden'] as &$strawberry){
-        $bush = serialize($strawberry['bush']);
-        if($_POST['collectALL'] == unserialize($bush) ->  bushID){
-            $strawberry['bush'] -> collectAll();
+    foreach($_SESSION['garden'] as $index => $berry){
+        $bush = unserialize($berry);
+        if($_POST['collectALL'] == $bush ->  bushID){
+            $bush-> collectAll();
+            $_SESSION['garden'][$index] = serialize($bush);
         }
     }
     header('Location: http://localhost/try/php/garden/removing.php');
@@ -31,20 +33,23 @@ unset($strawberry);
 
 /*deleating all bushes*/
 if(isset($_POST['remove'])){
-    foreach($_SESSION['garden'] as $id => $strawberry){
-            unset($_SESSION['garden'][$id]); 
-    }
+    foreach($_SESSION['garden'] as $id => $berry){
+        unset($_SESSION['garden'][$id]); 
+}
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;  
 }
 
 /*colecting specific number of berries*/
 if(isset($_POST['collect'])){
-    foreach($_SESSION['garden'] as &$strawberry){
-        $bush = serialize($strawberry['bush']);
-        if($_POST['collect'] == unserialize($bush) ->  bushID){
-            $howmuch = $_POST['howMany'][ unserialize($bush) -> bushID ];
-            $strawberry['bush'] -> collect($howmuch);
+    foreach($_SESSION['garden'] as $index => $berry){
+        $bush = unserialize($berry);
+        if($_POST['collect'] == $bush ->  bushID){
+            if($_POST['howMany'][ $bush -> bushID ] !== ''){
+                $howmuch = $_POST['howMany'][ $bush -> bushID ];
+                $bush -> collect($howmuch);
+                $_SESSION['garden'][$index] = serialize($bush);
+            }
         }
     }
     header('Location: http://localhost/try/php/garden/removing.php');
@@ -188,16 +193,16 @@ if(isset($_POST['collect'])){
 </div>
 <form action="?" method="post">
     <div class="garden">
-        <?php foreach($_SESSION['garden'] as $strawberry): ?>
-        <?php $bush = serialize($strawberry['bush']);?>
+        <?php foreach($_SESSION['garden'] as $berry): ?>
+        <?php $bush = unserialize($berry);?>
         <div class="strawberry">
-        <img src=<?=$strawberry['imgPath'] ?>>
+        <img src=<?=$bush-> imgPath ?>>
         <div class="description">
-        Bush # <?= unserialize($bush) -> bushID ?>
-        Possible to collect: <?= unserialize($bush) ->  berriesAmount ?> berries.
-        <input type="text" id="berryNumbers" name="howMany[<?= unserialize($bush) -> bushID?>]" onkeyup="return checkup(this);">
-        <button class="btn-s" type="submit" name="collect" value="<?= unserialize($bush) -> bushID ?>">Collect</button>
-        <button class="btn-s" type="submit" id="collectAll" name="collectALL" value="<?= unserialize($bush) -> bushID ?>">Collect all berries</button>
+        Bush # <?= $bush -> bushID ?>
+        Possible to collect: <?= $bush ->  berriesAmount ?> berries.
+        <input type="text" id="berryNumbers" name="howMany[<?= $bush -> bushID?>]" onkeyup="return checkup(this);">
+        <button class="btn-s" type="submit" name="collect" value="<?= $bush -> bushID ?>">Collect</button>
+        <button class="btn-s" type="submit" id="collectAll" name="collectALL" value="<?= $bush -> bushID ?>">Collect all berries</button>
         </div>
         </div>
         <?php endforeach ?>

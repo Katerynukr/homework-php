@@ -6,6 +6,17 @@ class Strawberry{
     public string $imgPath;
     public int $toGrow = 3;
 
+    public static function collectCrop($allBerries) // <----- $visiAgurkai = $_SESSION['obj']
+    {
+        foreach($allBerries as $index => $berry) { // <---- serializuotas stringas
+            $berry = unserialize($berry); // <----- agurko objektas
+            $berry->collectAll();
+            $berry = serialize($berry); // <------ vel stringas
+            $allBerries[$index] = $berry; // <----- uzsaugom agurkus
+        }
+        return $allBerries;
+    }
+
     public function __construct( int $ID){
         $this->bushID = $ID;
         $rand = rand(2,4);
