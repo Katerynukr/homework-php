@@ -1,19 +1,17 @@
 <?php 
-include __DIR__.'/Strawberry.php';
+
 session_start();
 
+include __DIR__.'/Strawberry.php';
+include __DIR__.'/Blueberry.php';
 
-if(!isset($_SESSION['logged']) || 1 != $_SESSION['logged']) {
-    header('Location: http://localhost/try/php/garden/planting.php');
-    die;
-}
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
     $_SESSION['garden'] = [];
     $_SESSION['ID'] = 0;
 }
 
-/*planting a bush*/
+/*planting a strawberry bush*/
 if(isset($_POST['plant'])){
     $id = ++$_SESSION['ID'];
     $rand = rand(2,4);
@@ -26,8 +24,22 @@ if(isset($_POST['plant'])){
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
 }
-_d('sgs');
-/* planting many bushes at once*/
+
+/*planting a blueberyy bush*/
+if(isset($_POST['plantBlueberry'])){
+    $id = ++$_SESSION['ID'];
+    $rand = rand(1,3);
+    $imgPath = "./img/blueberry$rand.png";
+    $_SESSION['garden'][] =[
+        'bush' => new Blueberry($id),
+        'imgPath'=> $imgPath
+        
+    ];
+    header('Location: http://localhost/try/php/garden/planting.php');
+    exit;
+}
+
+/* planting many strawberry bushes at once*/
 if(isset($_POST['howManyPlant'])){
     $amount = (int) $_POST['howMany'];
     echo "<p>$amount</p>";
@@ -46,6 +58,31 @@ if(isset($_POST['howManyPlant'])){
         $imgPath = "./img/strawberry$rand.png";
         $_SESSION['garden'][] =[
             'bush' => new Strawberry($id),
+            'imgPath'=> $imgPath
+        ];
+    }
+    header('Location: http://localhost/try/php/garden/planting.php');
+    exit;
+}
+
+/* planting many blueberry bushes at once*/
+if(isset($_POST['howManyBlueberry'])){
+    $amount = (int) $_POST['howMany'];
+    if($amount < 0 || $amount > 4){
+        if($amount < 0){
+            $_SESSION['err'] = 1;
+        } elseif($amount > 4){
+            $_SESSION['err'] = 2;
+        }
+        header('Location: http://localhost/try/php/garden/planting.php');
+        exit;
+    }
+    foreach(range(1, $amount) as $blueberry){
+        $id = ++$_SESSION['ID'];
+        $rand = rand(1,3);
+        $imgPath = "./img/blueberry$rand.png";
+        $_SESSION['garden'][] =[
+            'bush' => new Blueberry($id),
             'imgPath'=> $imgPath
         ];
     }
@@ -223,9 +260,15 @@ if(isset($_POST['delete'])){
         </div>
         <?php endforeach ?>
         <input type="text" name="howMany">
-        <button id="btn" type="submit" name="howManyPlant">Grow bushes</button>
+        <div>
+        <button id="btn" type="submit" name="howManyPlant">Grow Strawberry </button>
         <button id="btn" type="submit" name="plant">Grow one bush</button>
+        </div>
+        <div>
+        <button id="btn" type="submit" name="howManyBlueberry">Grow Blueberry</button>
+        <button id="btn" type="submit" name="plantBlueberry">Grow one bush</button>
         <p><?=$_SESSION['ID'] ?></p>
+        </div>
     </div>
 </form> 
 </body>

@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 class Strawberry{
     public int $berriesAmount = 0;
     public int $bushID = 0;
