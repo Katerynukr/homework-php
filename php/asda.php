@@ -1,20 +1,21 @@
 <?php 
-
 session_start();
 
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
 
 /*does session exist*/
-if(!isset($_SESSION['garden'])){
-    $_SESSION['garden'] = [];
+if(!isset($_SESSION['o'])){
+    $_SESSION['object'] = [];
     $_SESSION['ID'] = 0;
 }
 
 /*planting a strawberry bush*/
 if(isset($_POST['plant'])){
+    _d($_POST['plant']);
     $id = ++$_SESSION['ID'];
-    $_SESSION['garden'][] = new Strawberry($id);
+    $strawberryBush = new Strawberry($id);
+    $_SESSION['object'][] = serialize($strawberryBush);
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
 }
@@ -22,7 +23,8 @@ if(isset($_POST['plant'])){
 /*planting a blueberyy bush*/
 if(isset($_POST['plantBlueberry'])){
     $id = ++$_SESSION['ID'];
-    $_SESSION['garden'][] =new Blueberry($id);
+    $blueberryBush = new Blueberry($id);
+    $_SESSION['object'][] = serialize($blueberryBush);
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
 }
@@ -42,7 +44,8 @@ if(isset($_POST['howManyPlant'])){
     }
     foreach(range(1, $amount) as $strawberry){
         $id = ++$_SESSION['ID'];
-        $_SESSION['garden'][] = new Strawberry($id);
+        $strawberryBush = new Strawberry($id);
+        $_SESSION['object'][] = serialize($strawberryBush);
     }
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
@@ -62,7 +65,8 @@ if(isset($_POST['howManyBlueberry'])){
     }
     foreach(range(1, $amount) as $blueberry){
         $id = ++$_SESSION['ID'];
-        $_SESSION['garden'][] =new Blueberry($id);
+        $blueberryBush = new Blueberry($id);
+        $_SESSION['object'][] = serialize($blueberryBush);
     }
     header('Location: http://localhost/try/php/garden/planting.php');
     exit;
@@ -70,10 +74,10 @@ if(isset($_POST['howManyBlueberry'])){
 
 /*deleating a bush*/
 if(isset($_POST['delete'])){
-    foreach($_SESSION['garden'] as $id => $berry){
-        $bush = serialize($berry);
-        if($_POST['delete'] ==  unserialize($bush) -> bushID ){
-            unset($_SESSION['garden'][$id]);
+    foreach($_SESSION['object'] as $id => $berry){
+        $bush = unserialize($berry);
+        if($_POST['delete'] ==  $bush->bushID ){
+            unset($_SESSION['object'][$id]);
             header('Location: http://localhost/try/php/garden/planting.php');
             exit;   
         }
@@ -217,7 +221,6 @@ if(isset($_POST['delete'])){
 </style>
 </head>
 <body>
-<a href="login.php?logout" class="btn-m">Log out</a>
 <div class="nav">
     <a href="http://localhost/try/php/garden/planting.php">go to plant</a>
     <a href="http://localhost/try/php/garden/removing.php">go to collect</a>
@@ -226,25 +229,26 @@ if(isset($_POST['delete'])){
 <form action="" method="post">
     <div class="garden">
         <?php include __DIR__.'/error.php' ?>
-        <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = serialize($berry);?>
+        <?php foreach($_SESSION['object'] as $berry): ?>
+        <?php $bush = unserialize($berry);
+        _d($berry)?>
         <div class="strawberry">
-        <img src=<?=unserialize($bush) -> imgPath?>>
+        <img src=<?= $bush -> imgPath ?>>
         <div class="description">
-        Strawberry number : <?= unserialize($bush) -> bushID ?>
-        Number of berries : <?=  unserialize($bush) ->  berriesAmount?>
-        <button class="btn-s" type="submit" name="delete" value="<?=  unserialize($bush) -> bushID ?>">Delete</button>
+        Strawberry number : <?= $bush -> bushID ?>
+        Number of berries : <?= $bush ->  berriesAmount?>
+        <button class="btn-s" type="submit" name="delete" value="<?=  $bush -> bushID ?>">Delete</button>
         </div>
         </div>
         <?php endforeach ?>
         <input type="text" name="howMany">
         <div>
-        <button id="btn" type="submit" name="howManyPlant">Grow Strawberry </button>
-        <button id="btn" type="submit" name="plant">Grow one bush</button>
+        <button id="btn" type="submit" name="howManyPlant">Plant Strawberry </button>
+        <button id="btn" type="submit" name="plant">Plant one strawberry</button>
         </div>
         <div>
-        <button id="btn" type="submit" name="howManyBlueberry">Grow Blueberry</button>
-        <button id="btn" type="submit" name="plantBlueberry">Grow one bush</button>
+        <button id="btn" type="submit" name="howManyBlueberry">Plant Blueberry</button>
+        <button id="btn" type="submit" name="plantBlueberry">Plant one blueberry</button>
         <p><?=$_SESSION['ID'] ?></p>
         </div>
     </div>
@@ -254,3 +258,162 @@ if(isset($_POST['delete'])){
  
 
 <!-- why do we have to use serialize and what for it is used -->
+
+
+
+
+<?php
+session_start();
+
+include __DIR__.'/Strawberry.php';
+include __DIR__.'/Blueberry.php';
+
+/*does session exist*/
+if(!isset($_SESSION['o'])){
+    $_SESSION['object'] = [];
+    $_SESSION['ID'] = 0;
+}
+
+/*growing berries*/
+if(isset($_POST['grow'])){
+  foreach($_SESSION['object'] as $i => $bush){
+      _d($bush, 'strinf');
+     $berryObj = unserialize($bush);
+    _d($berryObj, 'object');
+    $berryObj->growBerries($_POST['berry'][$berryObj->bushID]);
+    $bush = serialize($berryObj);
+    $_SESSION['object'][$i] = $bush;
+  }
+    header('Location: http://localhost/try/php/garden/growing.php');
+    exit;
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    body{
+        background-color: #FFDAB9;
+    }
+
+        form{
+            /* display:inline-block; */
+        }
+            .nav{
+                display:inline-block;
+                width:100%;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                text-align:center;
+                margin-top:40px;
+            }
+                .nav > a{
+                    text-decoration: none;
+                    margin-left: 10px;
+                    border: 2px solid #ccae94;
+                    margin: 30px;
+                    background-color:#fff7f1;
+                    padding: 25px;
+                    border-radius: 15px;
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #ccae94;
+                    text-shadow: 3px 0 0 #fff5ec;
+                }
+                .nav > a:hover{
+                    background-color:#ccae94;
+                    border: 2px solid #fff5ec;
+                    color:#fff7f1;
+                    font-weight: bolder;
+                    text-shadow: 3px 0 0 #ccae94;
+                }
+            .garden{
+                display: inline-block;
+                width: 800px;
+                margin-left: calc( (100% - 800px) / 2 );
+                padding: 50px;
+                border: 15px solid #fff7f1;
+                border-radius:20px;
+                margin-top: 5%;
+            }
+                img{
+                    object-fit: contain;
+                    object-position: center;
+                    height:50px;
+                    padding:5px 5px 0 5px;
+                }
+                .strawberry{
+                    display:inline-block;
+                    width:100%;
+                    border: 4px solid #fff5ec;
+                    border-radius: 15px;
+                    padding-top:5px;
+                    padding-bottom:5px;
+                    margin-top:5px;
+                    margin-bottom:5px;
+                }
+                .strawberry:hover{
+                    background-color: #fff5ec; 
+                    border-color: #e5c4a6;
+                }
+
+                .description{
+                    display:inline-block;
+                    font-size:30px;
+                    color: #ccae94;
+                    text-shadow: 2px 0 0 #fff5ec;
+                    font-weight: bold;
+                }
+            #btn{
+                width: 180px;
+                margin-left: calc( (100% - 180px) / 2 );
+                margin-top: 10px;
+                background-color:#ccae94;
+                border: 2px solid #b29881;
+                padding: 25px;
+                font-size: 20px;
+                font-weight: bold;
+                color: #fff7f1;
+                border-radius:20px;
+                outline: 0 solid #b29881;
+            }
+            #btn:hover{
+                background-color:#fff7f1;
+                color: #ccae94;
+            }
+    
+</style>
+</head>
+<body>
+<div class="nav">
+    <a href="http://localhost/try/php/garden/planting.php">go to plant</a>
+    <a href="http://localhost/try/php/garden/removing.php">go to collect</a>
+    <a href="http://localhost/try/php/garden/growing.php">go to grow</a>
+</div>
+<form action="" method="post">
+    <div class="garden">
+        <?php foreach($_SESSION['object'] as $berry): ?>
+        <?php $bush = unserialize($berry);?>
+        <?php _d($bush, 'foeach')?>
+        <div class="strawberry">
+        <img src=<?=$bush->imgPath ?>>
+        <div class="description">
+        <?php $toGrow = rand(3, 7) ?>
+        <input type="hidden" name="berry[<?= $bush->bushID ?>]" value="<?= $toGrow?>">
+        Number of berries on bush # <?=$bush->bushID ?>: <?=$bush->berriesAmount ?>
+        + <?= $toGrow?>
+        </div>
+        </div>
+        <?php endforeach ?>
+        <button id="btn" type="submit" name="grow">Grow berries</button>
+    </div>
+</form> 
+</body>
+</html>
+
+<!-- why was not working method on unserialised object -->

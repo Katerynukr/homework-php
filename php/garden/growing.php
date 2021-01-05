@@ -1,6 +1,9 @@
 <?php
-include __DIR__.'/Strawberry.php';
 session_start();
+// session_destroy();
+
+include __DIR__.'/Strawberry.php';
+include __DIR__.'/Blueberry.php';
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
@@ -10,11 +13,13 @@ if(!isset($_SESSION['garden'])){
 
 /*growing berries*/
 if(isset($_POST['grow'])){
-  foreach($_SESSION['garden'] as &$strawberry){
-    $bush = serialize($strawberry['bush']);
-    $howMuch = $_POST['strawberry'][unserialize($bush) -> bushID];
-    $strawberry['bush'] -> growBerries($howMuch);
-    // unserialize($bush) ->  berriesAmount += $_POST['strawberry'][unserialize($bush) -> bushID];
+  foreach($_SESSION['garden'] as $index => $berry){
+    $bush = serialize($berry);
+    $howMuch = $_POST['berry'][unserialize($bush) -> bushID];
+    $bush = unserialize($bush);
+    $bush-> growBerries();
+    $_SESSION['garden'][$index] = $bush;
+    
   }
     header('Location: http://localhost/try/php/garden/growing.php');
     exit;
@@ -129,16 +134,15 @@ if(isset($_POST['grow'])){
 </div>
 <form action="" method="post">
     <div class="garden">
-        <?php foreach($_SESSION['garden'] as $strawberry): ?>
-        <?php $bush = serialize($strawberry['bush']);?>
+        <?php foreach($_SESSION['garden'] as $berry): ?>
+        <?php $bush = serialize($berry);?>
         <?php _d($bush, 'foeach')?>
         <div class="strawberry">
-        <img src=<?=$strawberry['imgPath'] ?>>
+        <img src=<?=unserialize($bush)->imgPath?>>
         <div class="description">
-        <?php $toGrow = rand(3, 7) ?>
-        <input type="hidden" name="strawberry[<?= unserialize($bush) -> bushID ?>]" value="<?= $toGrow?>">
+        <input type="hidden" name="berry[<?= unserialize($bush) -> bushID ?>]">
         Number of berries : <?= unserialize($bush) ->  berriesAmount ?>
-        + <?= $toGrow?>
+        + <?=unserialize($bush) ->toGrow ?>
         </div>
         </div>
         <?php endforeach ?>
