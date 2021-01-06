@@ -35,22 +35,12 @@ if(isset($_POST['plantBlueberry'])){
 /* planting many strawberry bushes at once*/
 if(isset($_POST['howManyPlant'])){
     $amount = (int) $_POST['howMany'];
-    echo "<p>$amount</p>";
-    if($amount < 0 || $amount > 4){
-        if($amount < 0){
-            $_SESSION['err'] = 1;
-        } elseif($amount > 4){
-            $_SESSION['err'] = 2;
-        }
-
-        APP::redirect($fileName);
-    }
+    APP::checkObjectsToGrow($amount, $fileName);
     foreach(range(1, $amount) as $strawberry){
         APP::increaseSessionID();
         $object = new Strawberry($_SESSION['ID']);
         APP::sessionSaveObject($object);
     }
-
         APP::redirect($fileName);
     
 }
@@ -58,21 +48,12 @@ if(isset($_POST['howManyPlant'])){
 /* planting many blueberry bushes at once*/
 if(isset($_POST['howManyBlueberry'])){
     $amount = (int) $_POST['howMany'];
-    if($amount < 0 || $amount > 4){
-        if($amount < 0){
-            $_SESSION['err'] = 1;
-        } elseif($amount > 4){
-            $_SESSION['err'] = 2;
-        }
-
-        APP::redirect($fileName);
-    }
+    APP::checkObjectsToGrow($amount, $fileName);
     foreach(range(1, $amount) as $blueberry){
         APP::increaseSessionID();
         $object = new Blueberry($_SESSION['ID']);
         APP::sessionSaveObject($object);
     }
-
      APP::redirect($fileName);
     
 }

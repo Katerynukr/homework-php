@@ -31,4 +31,18 @@ class APP{
             }
         }
     }
+
+    //METHOD THAT CHECKS HOW MANY OBJECT WERE SELECTED TO PLANT
+    //AND THROWS ERRORS
+    public static function checkObjectsToGrow($amount, $fileName){
+        if($amount <= 0 || $amount > 4){
+            if($amount < 0 || $amount == 0 ){
+                $_SESSION['err'] = 1;
+            } elseif($amount > 4){
+                $_SESSION['err'] = 2;
+            }
+
+            APP::redirect($fileName);
+        }
+    }
 }
