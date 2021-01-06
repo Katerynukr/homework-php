@@ -36,16 +36,7 @@ if(isset($_POST['remove'])){
 
 /*colecting specific number of berries*/
 if(isset($_POST['collect'])){
-    foreach($_SESSION['garden'] as $index => $berry){
-        $bush = unserialize($berry);
-        if($_POST['collect'] == $bush ->  bushID){
-            if($_POST['howMany'][ $bush -> bushID ] !== ''){
-                $howmuch = $_POST['howMany'][ $bush -> bushID ];
-                $bush -> collect($howmuch);
-                $_SESSION['garden'][$index] =  APP::objectSerialize($bush);
-            }
-        }
-    }
+    APP::collectSpecificAmount();
     APP::redirect($fileName); 
 }
 ?>

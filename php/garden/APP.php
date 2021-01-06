@@ -97,6 +97,20 @@ class APP{
         }
     }
 
+    //METHOD THAT COLLECTS SPECIFIC AMOUNT OF BERRIES FROM ONE BUSH
+    public static function collectSpecificAmount(){
+        foreach($_SESSION['garden'] as $index => $berry){
+            $bush = APP::objectUnserialize($berry);
+            if($_POST['collect'] == $bush ->  bushID){
+                if($_POST['howMany'][ $bush -> bushID ] !== ''){
+                    $howmuch = $_POST['howMany'][ $bush -> bushID ];
+                    $bush -> collect($howmuch);
+                    $_SESSION['garden'][$index] =  APP::objectSerialize($bush);
+                }
+            }
+        }
+    }
+
     
 
     // //METHOD THAT CHECKS EXISTANCE OF SESSION
