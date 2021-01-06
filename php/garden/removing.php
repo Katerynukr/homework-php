@@ -1,16 +1,17 @@
 <?php
 session_start();
 
+include __DIR__.'/APP.php';
 include __DIR__.'/Berries.php';
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
 
+$fileName = 'removing.php';
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
     echo 'You can\'t collect berries!';
-    header('Location: http://localhost/try/php/garden/planting.php');
-    exit;
+    APP::redirect($fileName); 
 }
 
 function myAlert() { 
@@ -28,8 +29,7 @@ if(isset($_POST['collectALL'])){
             $_SESSION['garden'][$index] = serialize($bush);
         }
     }
-    header('Location: http://localhost/try/php/garden/removing.php');
-    exit;
+    APP::redirect($fileName); 
 }
 unset($strawberry);
 
@@ -38,8 +38,7 @@ if(isset($_POST['remove'])){
     foreach($_SESSION['garden'] as $id => $berry){
         unset($_SESSION['garden'][$id]); 
 }
-    header('Location: http://localhost/try/php/garden/planting.php');
-    exit;  
+    APP::redirect($fileName);   
 }
 
 /*colecting specific number of berries*/
@@ -54,8 +53,7 @@ if(isset($_POST['collect'])){
             }
         }
     }
-    header('Location: http://localhost/try/php/garden/removing.php');
-    exit;
+    APP::redirect($fileName); 
 }
 ?>
 <!DOCTYPE html>

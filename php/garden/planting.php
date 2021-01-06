@@ -2,11 +2,12 @@
 
 session_start();
 // session_destroy();
-
+include __DIR__.'/APP.php';
 include __DIR__.'/Berries.php';
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
 
+$fileName = 'planting.php';
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
@@ -19,8 +20,8 @@ if(isset($_POST['plant'])){
     $id = ++$_SESSION['ID'];
     $object = new Strawberry($id);
     $_SESSION['garden'][] = serialize($object);
-    header('Location: http://localhost/try/php/garden/planting.php');
-    exit;
+
+    APP::redirect($fileName); 
 }
 
 /*planting a blueberyy bush*/
@@ -28,8 +29,8 @@ if(isset($_POST['plantBlueberry'])){
     $id = ++$_SESSION['ID'];
     $object = new Blueberry($id);
     $_SESSION['garden'][] = serialize($object);
-    header('Location: http://localhost/try/php/garden/planting.php');
-    exit;
+
+    APP::redirect($fileName); 
 }
 
 /* planting many strawberry bushes at once*/
@@ -42,16 +43,17 @@ if(isset($_POST['howManyPlant'])){
         } elseif($amount > 4){
             $_SESSION['err'] = 2;
         }
-        header('Location: http://localhost/try/php/garden/planting.php');
-        exit;
+
+        APP::redirect($fileName);
     }
     foreach(range(1, $amount) as $strawberry){
         $id = ++$_SESSION['ID'];
         $object = new Strawberry($id);
         $_SESSION['garden'][] = serialize($object);
     }
-    header('Location: http://localhost/try/php/garden/planting.php');
-    exit;
+
+        APP::redirect($fileName);
+    
 }
 
 /* planting many blueberry bushes at once*/
@@ -63,16 +65,17 @@ if(isset($_POST['howManyBlueberry'])){
         } elseif($amount > 4){
             $_SESSION['err'] = 2;
         }
-        header('Location: http://localhost/try/php/garden/planting.php');
-        exit;
+
+        APP::redirect($fileName);
     }
     foreach(range(1, $amount) as $blueberry){
         $id = ++$_SESSION['ID'];
         $object = new Blueberry($id);
         $_SESSION['garden'][] = serialize($object);
     }
-    header('Location: http://localhost/try/php/garden/planting.php');
-    exit;
+
+     APP::redirect($fileName);
+    
 }
 
 /*deleating a bush*/
@@ -81,8 +84,8 @@ if(isset($_POST['delete'])){
         $bush = unserialize($berry);
         if($_POST['delete'] ==  $bush -> bushID ){
             unset($_SESSION['garden'][$id]);
-            header('Location: http://localhost/try/php/garden/planting.php');
-            exit;   
+
+            APP::redirect($fileName);  
         }
     }
 }

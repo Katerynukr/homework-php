@@ -2,9 +2,12 @@
 session_start();
 // session_destroy();
 
+include __DIR__.'/APP.php';
 include __DIR__.'/Berries.php';
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
+
+$fileName = 'growing.php';
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
@@ -21,8 +24,7 @@ if(isset($_POST['grow'])){
     $_SESSION['garden'][$index] = serialize($bush);
     
   }
-    header('Location: http://localhost/try/php/garden/growing.php');
-    exit;
+    APP::redirect($fileName); 
 }
 ?>
 
