@@ -23,13 +23,7 @@ function myAlert() {
 
 /*collecting all berries*/
 if(isset($_POST['collectALL'])){
-    foreach($_SESSION['garden'] as $index => $berry){
-        $bush =  APP::objectUnserialize($berry);
-        if($_POST['collectALL'] == $bush ->  bushID){
-            $bush-> collectAll();
-            $_SESSION['garden'][$index] =  APP::objectSerialize($bush);
-        }
-    }
+    APP::collectAllBerries();
     APP::redirect($fileName); 
 }
 
