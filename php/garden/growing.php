@@ -17,13 +17,14 @@ if(!isset($_SESSION['garden'])){
 
 /*growing berries*/
 if(isset($_POST['grow'])){
-  foreach($_SESSION['garden'] as $index => $berry){
-    $bush = unserialize($berry);
-    $howMuch = $_POST['berry'][$bush -> bushID];
-    $bush-> growBerries();
-    $_SESSION['garden'][$index] = serialize($bush);
+    APP::grow();
+//   foreach($_SESSION['garden'] as $index => $berry){
+//     $bush = APP::objectUnserialize($berry);
+//     $howMuch = $_POST['berry'][$bush -> bushID];
+//     $bush-> growBerries();
+//     $_SESSION['garden'][$index] = APP::objectSerialize($bush);
     
-  }
+//   }
     APP::redirect($fileName); 
 }
 ?>

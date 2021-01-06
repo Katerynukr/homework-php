@@ -210,7 +210,7 @@ if(isset($_POST['delete'])){
     <div class="garden">
         <?php include __DIR__.'/error.php' ?>
         <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = unserialize($berry);?>
+        <?php $bush = APP::objectUnserialize($berry);?>
         <div class="strawberry">
         <img src=<?=$bush -> imgPath?>>
         <div class="description">
