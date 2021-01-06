@@ -7,6 +7,7 @@ include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
 
 $fileName = 'removing.php';
+$filePlant = 'planting.php';
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
@@ -23,22 +24,20 @@ function myAlert() {
 /*collecting all berries*/
 if(isset($_POST['collectALL'])){
     foreach($_SESSION['garden'] as $index => $berry){
-        $bush = unserialize($berry);
+        $bush =  APP::objectUnserialize($berry);
         if($_POST['collectALL'] == $bush ->  bushID){
             $bush-> collectAll();
-            $_SESSION['garden'][$index] = serialize($bush);
+            $_SESSION['garden'][$index] =  APP::objectSerialize($bush);
         }
     }
     APP::redirect($fileName); 
 }
-unset($strawberry);
+
 
 /*deleating all bushes*/
 if(isset($_POST['remove'])){
-    foreach($_SESSION['garden'] as $id => $berry){
-        unset($_SESSION['garden'][$id]); 
-}
-    APP::redirect($fileName);   
+    APP::delete();
+    APP::redirect($filePlant);   
 }
 
 /*colecting specific number of berries*/
@@ -49,7 +48,7 @@ if(isset($_POST['collect'])){
             if($_POST['howMany'][ $bush -> bushID ] !== ''){
                 $howmuch = $_POST['howMany'][ $bush -> bushID ];
                 $bush -> collect($howmuch);
-                $_SESSION['garden'][$index] = serialize($bush);
+                $_SESSION['garden'][$index] =  APP::objectSerialize($bush);
             }
         }
     }
@@ -194,7 +193,7 @@ if(isset($_POST['collect'])){
 <form action="?" method="post">
     <div class="garden">
         <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = unserialize($berry);?>
+        <?php $bush = APP::objectUnserialize($berry);?>
         <div class="strawberry">
         <img src=<?=$bush-> imgPath ?>>
         <div class="description">

@@ -63,7 +63,7 @@ class APP{
         }
     }
 
-    //METHOD THAT REDIRECTS PAGE (FROM POST TO GET)
+    //METHOD THAT GROWS BERRIES ON BUSHES 
     public static function grow(){
         foreach($_SESSION['garden'] as $index => $berry){
             $bush = APP::objectUnserialize($berry);
@@ -72,6 +72,20 @@ class APP{
             APP::sessionSaveObjectByIndex($bush);
           }
     }
+
+    //METHOD THAT UNSETS OBJECT 
+    public static function unset($id){
+            unset($_SESSION['garden'][$id]); 
+    }
+
+     //METHOD THAT DELETES ALL BUSHES 
+     public static function delete(){
+        foreach($_SESSION['garden'] as $id => $berry){
+            APP::unset($id);
+         }
+    }
+
+    
 
     // //METHOD THAT CHECKS EXISTANCE OF SESSION
     // public static function isSessionCreated(){

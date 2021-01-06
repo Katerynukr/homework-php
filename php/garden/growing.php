@@ -18,13 +18,6 @@ if(!isset($_SESSION['garden'])){
 /*growing berries*/
 if(isset($_POST['grow'])){
     APP::grow();
-//   foreach($_SESSION['garden'] as $index => $berry){
-//     $bush = APP::objectUnserialize($berry);
-//     $howMuch = $_POST['berry'][$bush -> bushID];
-//     $bush-> growBerries();
-//     $_SESSION['garden'][$index] = APP::objectSerialize($bush);
-    
-//   }
     APP::redirect($fileName); 
 }
 ?>
@@ -138,7 +131,7 @@ if(isset($_POST['grow'])){
 <form action="" method="post">
     <div class="garden">
         <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = unserialize($berry);?>
+        <?php $bush =  APP::objectUnserialize($berry)?>
         <?php _d($bush, 'foeach')?>
         <div class="strawberry">
         <img src=<?=$bush->imgPath?>>
