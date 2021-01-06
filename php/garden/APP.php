@@ -15,16 +15,28 @@ class APP{
         //  return $_SESSION['ID']+1;
     }
 
+     //METHOD THAT SERIALIZES OBJECT
+     public static function objectSerialize($object){
+        $object = serialize($object);
+        return $object;
+    }
+
+    //METHOD THAT UNSERIALIZES OBJECT
+    public static function objectUnserialize($object){
+        $object = unserialize($object);
+        return $object;
+    }
+
      //METHOD THAT SAVES OBJECT INTO SESSION
      public static function sessionSaveObject($object){
-        $object = serialize($object);
+        $object = APP::objectSerialize($object);
         $_SESSION['garden'][] = $object;
     }
 
     //METHOD THAT DELETES OBJECT FROM SESSION
     public static function sessionDeleteObject($fileName){
         foreach($_SESSION['garden'] as $id => $berry){
-            $bush = unserialize($berry);
+            $bush = APP::objectUnserialize($berry);
             if($_POST['delete'] ==  $bush -> bushID ){
                 unset($_SESSION['garden'][$id]);
                 APP::redirect($fileName);  
@@ -45,4 +57,12 @@ class APP{
             APP::redirect($fileName);
         }
     }
+
+    // //METHOD THAT CHECKS EXISTANCE OF SESSION
+    // public static function isSessionCreated(){
+    //     if(!isset($_SESSION['garden'])){
+    //         $_SESSION['garden'] = [];
+    //         $_SESSION['ID'] = 0;
+    //     }
+    // }
 }
