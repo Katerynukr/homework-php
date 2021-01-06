@@ -19,10 +19,8 @@ if(!isset($_SESSION['garden'])){
 if(isset($_POST['plant'])){
     APP::increaseSessionID();
     // $_SESSION['ID'] = APP::increaseSessionID(); 
-
     $object = new Strawberry($_SESSION['ID']);
-    $_SESSION['garden'][] = serialize($object);
-
+    APP::sessionSaveObject($object);
     APP::redirect($fileName); 
 }
 
@@ -30,8 +28,7 @@ if(isset($_POST['plant'])){
 if(isset($_POST['plantBlueberry'])){
     APP::increaseSessionID();
     $object = new Blueberry($_SESSION['ID']);
-    $_SESSION['garden'][] = serialize($object);
-
+    APP::sessionSaveObject($object);
     APP::redirect($fileName); 
 }
 
@@ -51,7 +48,7 @@ if(isset($_POST['howManyPlant'])){
     foreach(range(1, $amount) as $strawberry){
         APP::increaseSessionID();
         $object = new Strawberry($_SESSION['ID']);
-        $_SESSION['garden'][] = serialize($object);
+        APP::sessionSaveObject($object);
     }
 
         APP::redirect($fileName);
@@ -73,7 +70,7 @@ if(isset($_POST['howManyBlueberry'])){
     foreach(range(1, $amount) as $blueberry){
         APP::increaseSessionID();
         $object = new Blueberry($_SESSION['ID']);
-        $_SESSION['garden'][] = serialize($object);
+        APP::sessionSaveObject($object);
     }
 
      APP::redirect($fileName);
@@ -86,7 +83,6 @@ if(isset($_POST['delete'])){
         $bush = unserialize($berry);
         if($_POST['delete'] ==  $bush -> bushID ){
             unset($_SESSION['garden'][$id]);
-
             APP::redirect($fileName);  
         }
     }

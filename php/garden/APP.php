@@ -14,4 +14,10 @@ class APP{
 
         //  return $_SESSION['ID']+1;
     }
+
+     //METHOD THAT SAVES OBJECT INTO SESSION
+     public static function sessionSaveObject($object){
+        $object = serialize($object);
+        $_SESSION['garden'][] = $object;
+    }
 }
