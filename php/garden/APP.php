@@ -20,4 +20,15 @@ class APP{
         $object = serialize($object);
         $_SESSION['garden'][] = $object;
     }
+
+    //METHOD THAT DELETES OBJECT FROM SESSION
+    public static function sessionDeleteObject($fileName){
+        foreach($_SESSION['garden'] as $id => $berry){
+            $bush = unserialize($berry);
+            if($_POST['delete'] ==  $bush -> bushID ){
+                unset($_SESSION['garden'][$id]);
+                APP::redirect($fileName);  
+            }
+        }
+    }
 }

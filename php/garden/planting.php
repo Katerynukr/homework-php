@@ -79,13 +79,7 @@ if(isset($_POST['howManyBlueberry'])){
 
 /*deleating a bush*/
 if(isset($_POST['delete'])){
-    foreach($_SESSION['garden'] as $id => $berry){
-        $bush = unserialize($berry);
-        if($_POST['delete'] ==  $bush -> bushID ){
-            unset($_SESSION['garden'][$id]);
-            APP::redirect($fileName);  
-        }
-    }
+    APP::sessionDeleteObject($fileName);
 }
 
 ?>
