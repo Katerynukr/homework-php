@@ -1,4 +1,5 @@
 <?php
+
 class Berries{
     public int $berriesAmount = 0;
     public int $toGrow = 3;

@@ -1,21 +1,10 @@
 <?php
 
-class Strawberry{
+class Strawberry extends Berries{
     public int $berriesAmount = 0;
     public int $bushID = 0;
     public string $imgPath;
     public int $toGrow = 3;
-
-    public static function collectCrop($allBerries) // <----- $visiAgurkai = $_SESSION['obj']
-    {
-        foreach($allBerries as $index => $berry) { // <---- serializuotas stringas
-            $berry = unserialize($berry); // <----- agurko objektas
-            $berry->collectAll();
-            $berry = serialize($berry); // <------ vel stringas
-            $allBerries[$index] = $berry; // <----- uzsaugom agurkus
-        }
-        return $allBerries;
-    }
 
     public function __construct( int $ID){
         $this->bushID = $ID;
@@ -28,19 +17,31 @@ class Strawberry{
             $this->imgPath ='./img/strawberry4.png';
         }
     }
+    // METHODS THAT EXIST AT THE PARENT CLASS
 
-    public function growBerries(){
-        $this->berriesAmount = $this->berriesAmount + $this->toGrow;
-        $this->toGrow = rand(3, 7);
-    }
-
-    public function collectAll(){
-        $this->berriesAmount -= $this->berriesAmount;
-    }
-
-    public function collect($howMuch){
-        if($howMuch <= $this->berriesAmount){
-            $this->berriesAmount -= $howMuch;
-        }
-    }
+    // public static function collectCrop($allBerries) 
+    // {
+    //     foreach($allBerries as $index => $berry) { 
+    //         $berry = unserialize($berry);
+    //         $berry->collectAll();
+    //         $berry = serialize($berry); 
+    //         $allBerries[$index] = $berry; 
+    //     }
+    //     return $allBerries;
+    // }
+    //
+    // public function growBerries(){
+    //     $this->berriesAmount = $this->berriesAmount + $this->toGrow;
+    //     $this->toGrow = rand(3, 7);
+    // }
+    //
+    // public function collectAll(){
+    //     $this->berriesAmount -= $this->berriesAmount;
+    // }
+    //
+    // public function collect($howMuch){
+    //     if($howMuch <= $this->berriesAmount){
+    //         $this->berriesAmount -= $howMuch;
+    //     }
+    // }
 }

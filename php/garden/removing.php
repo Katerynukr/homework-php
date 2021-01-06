@@ -1,8 +1,10 @@
 <?php
 session_start();
 
+include __DIR__.'/Berries.php';
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
+
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
