@@ -34,10 +34,10 @@ class APP{
         $_SESSION['garden'][] = $object;
     }
 
-    // //METHOD THAT SAVES OBJECT INTO SESSION BY INDEX
-    // public static function sessionSaveObjectByIndex($object){
-    //     $_SESSION['garden'][$index] = APP::objectSerialize($object);
-    // }
+    //METHOD THAT SAVES OBJECT INTO SESSION BY INDEX
+    public static function sessionSaveObjectByIndex($index, $object){
+        $_SESSION['garden'][$index] = APP::objectSerialize($object);
+    }
 
     //METHOD THAT DELETES OBJECT FROM SESSION
     public static function sessionDeleteObject(string $fileName){
@@ -69,7 +69,7 @@ class APP{
             $bush = APP::objectUnserialize($berry);
             $howMuch = $_POST['berry'][$bush -> bushID];
             $bush-> growBerries();
-            $_SESSION['garden'][$index] = APP::objectSerialize($bush);
+            APP::sessionSaveObjectByIndex($index, $bush);
           }
     }
 
@@ -92,7 +92,7 @@ class APP{
             $bush =  APP::objectUnserialize($berry);
             if($_POST['collectALL'] == $bush ->  bushID){
                 $bush-> collectAll();
-                $_SESSION['garden'][$index] =  APP::objectSerialize($bush);
+                APP::sessionSaveObjectByIndex($index, $bush);
             }
         }
     }
@@ -105,7 +105,7 @@ class APP{
                 if($_POST['howMany'][ $bush -> bushID ] !== ''){
                     $howmuch = $_POST['howMany'][ $bush -> bushID ];
                     $bush -> collect($howmuch);
-                    $_SESSION['garden'][$index] =  APP::objectSerialize($bush);
+                    APP::sessionSaveObjectByIndex($index, $bush);
                 }
             }
         }
