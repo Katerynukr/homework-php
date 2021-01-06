@@ -33,7 +33,7 @@ class APP{
     }
 
     //METHOD THAT CHECKS HOW MANY OBJECT WERE SELECTED TO PLANT
-    //AND THROWS ERRORS
+    //AND THROWS ERRORS IF IMPUT IS NOT VALID
     public static function checkObjectsToGrow($amount, $fileName){
         if($amount <= 0 || $amount > 4){
             if($amount < 0 || $amount == 0 ){
