@@ -1,6 +1,6 @@
 <?php
 
-class Strawberry extends Berries{
+class Strawberry extends Berries implements Features{
     public int $berriesAmount = 0;
     public int $bushID = 0;
     public string $imgPath;
@@ -17,31 +17,32 @@ class Strawberry extends Berries{
             $this->imgPath ='./img/strawberry4.png';
         }
     }
-    // METHODS THAT EXIST AT THE PARENT CLASS
 
-    // public static function collectCrop($allBerries) 
-    // {
-    //     foreach($allBerries as $index => $berry) { 
-    //         $berry = unserialize($berry);
-    //         $berry->collectAll();
-    //         $berry = serialize($berry); 
-    //         $allBerries[$index] = $berry; 
-    //     }
-    //     return $allBerries;
-    // }
-    //
-    // public function growBerries(){
-    //     $this->berriesAmount = $this->berriesAmount + $this->toGrow;
-    //     $this->toGrow = rand(3, 7);
-    // }
-    //
-    // public function collectAll(){
-    //     $this->berriesAmount -= $this->berriesAmount;
-    // }
-    //
-    // public function collect($howMuch){
-    //     if($howMuch <= $this->berriesAmount){
-    //         $this->berriesAmount -= $howMuch;
-    //     }
-    // }
+    //OVERWRITTEN FUNCTION FROM INTERFACE
+    public function growBerries(){
+        $this->berriesAmount = $this->berriesAmount + $this->toGrow;
+        $this->toGrow = rand(3, 7);
+    }
+    
+    // METHODS THAT ARE DECLERED AT THE ABSTRACT PARENT CLASS
+    public static function collectCrop($allBerries) 
+    {
+        foreach($allBerries as $index => $berry) { 
+            $berry = unserialize($berry);
+            $berry->collectAll();
+            $berry = serialize($berry); 
+            $allBerries[$index] = $berry; 
+        }
+        return $allBerries;
+    }
+   
+    public function collectAll(){
+        $this->berriesAmount -= $this->berriesAmount;
+    }
+    
+    public function collect($howMuch){
+        if($howMuch <= $this->berriesAmount){
+            $this->berriesAmount -= $howMuch;
+        }
+    }
 }

@@ -2,6 +2,7 @@
 session_start();
 
 include __DIR__.'/APP.php';
+include __DIR__.'/Features.php';
 include __DIR__.'/Berries.php';
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';

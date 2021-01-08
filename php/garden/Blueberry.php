@@ -1,6 +1,6 @@
 <?php
 
-class Blueberry extends Berries {
+class Blueberry extends Berries  implements Features{
     public int $berriesAmount = 0;
     public int $bushID = 0;
     public string $imgPath;
@@ -18,34 +18,32 @@ class Blueberry extends Berries {
         }
     }
     
-    //OVERWRITTEN FUNCTION FROM PARENT
+    //OVERWRITTEN FUNCTION FROM INTERFACE
 
     public function growBerries(){
         $this->berriesAmount = $this->berriesAmount + $this->toGrow;
         $this->toGrow = rand(7, 10);
     }
 
-    // METHODS THAT EXIST AT THE PARENT CLASS
-    //
-    // public static function collectCrop($allBerries) // <----- $visiAgurkai = $_SESSION['obj']
-    // {
-    //     foreach($allBerries as $index => $berry) { // <---- serializuotas stringas
-    //         $berry = unserialize($berry); // <----- agurko objektas
-    //         $berry->collectAll();
-    //         $berry = serialize($berry); // <------ vel stringas
-    //         $allBerries[$index] = $berry; // <----- uzsaugom agurkus
-    //     }
-    //     return $allBerries;
-    // }
-    //
-    //
-    // public function collectAll(){
-    //     $this->berriesAmount -= $this->berriesAmount;
-    // }
-    //
-    // public function collect($howMuch){
-    //     if($howMuch <= $this->berriesAmount){
-    //         $this->berriesAmount -= $howMuch;
-    //     }
-    // }
+    // METHODS THAT ARE DECLERED AT THE ABSTRACT PARENT CLASS
+    public static function collectCrop($allBerries) // <----- $visiAgurkai = $_SESSION['obj']
+    {
+        foreach($allBerries as $index => $berry) { // <---- serializuotas stringas
+            $berry = unserialize($berry); // <----- agurko objektas
+            $berry->collectAll();
+            $berry = serialize($berry); // <------ vel stringas
+            $allBerries[$index] = $berry; // <----- uzsaugom agurkus
+        }
+        return $allBerries;
+    }
+    
+    public function collectAll(){
+        $this->berriesAmount -= $this->berriesAmount;
+    }
+    
+    public function collect($howMuch){
+        if($howMuch <= $this->berriesAmount){
+            $this->berriesAmount -= $howMuch;
+        }
+    }
 }

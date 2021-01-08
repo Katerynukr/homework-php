@@ -1,0 +1,12 @@
+{
+    "name": "kateryna/garden",
+    "description": "garden of berries",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kateryna",
+            "email": "kateryna_neholiuk@ukr.net"
+        }
+    ],
+    "require": {}
+}
