@@ -1,6 +1,6 @@
 <?php 
+defined('DOOR_BELL') || die('enter only with log in');
 
-session_start();
 // session_destroy();
 include __DIR__.'/APP.php';
 include __DIR__.'/Features.php';
@@ -8,7 +8,7 @@ include __DIR__.'/Berries.php';
 include __DIR__.'/Strawberry.php';
 include __DIR__.'/Blueberry.php';
 
-$fileName = 'planting.php';
+$fileName = 'planting';
 
 /*does session exist*/
 if(!isset($_SESSION['garden'])){
