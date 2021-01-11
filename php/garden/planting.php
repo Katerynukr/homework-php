@@ -1,6 +1,5 @@
 <?php 
 defined('DOOR_BELL') || die('enter only with log in');
-
 $store= new Garden\Store('garden');
 _d($store-> getData());
 
@@ -9,14 +8,14 @@ $fileName = 'planting';
 /*planting a strawberry bush*/
 if(isset($_POST['plant'])){
     $object = new Garden\Strawberry($store->getNewID());
-    $store->sessionSaveNewObject($object);
+    $store->saveNewObject($object);
     Garden\APP::redirect($fileName); 
 }
 
 /*planting a blueberyy bush*/
 if(isset($_POST['plantBlueberry'])){
     $object = new Garden\Blueberry($store->getNewID());
-    $store->sessionSaveNewObject($object);
+    $store->saveNewObject($object);
     Garden\APP::redirect($fileName); 
 }
 
@@ -26,7 +25,7 @@ if(isset($_POST['howManyPlant'])){
     Garden\APP::checkObjectsToGrow($amount, $fileName);
     foreach(range(1, $amount) as $strawberry){
         $object = new Garden\Strawberry($store->getNewID());
-        $store->sessionSaveNewObject($object);
+        $store->saveNewObject($object);
     }
         Garden\APP::redirect($fileName);
     
@@ -38,7 +37,7 @@ if(isset($_POST['howManyBlueberry'])){
     Garden\APP::checkObjectsToGrow($amount, $fileName);
     foreach(range(1, $amount) as $blueberry){
         $object = new Garden\Blueberry($store->getNewID());
-        $store->sessionSaveNewObject($object);
+        $store->saveNewObject($object);
     }
      Garden\APP::redirect($fileName);
     
@@ -46,7 +45,7 @@ if(isset($_POST['howManyBlueberry'])){
 
 /*deleating a bush*/
 if(isset($_POST['delete'])){
-    $store->sessionDeleteObject($fileName, $_POST['delete'] );
+    $store->deleteObject($fileName, $_POST['delete'] );
 }
 
 ?>
@@ -213,7 +212,6 @@ if(isset($_POST['delete'])){
         <div>
         <button id="btn" type="submit" name="howManyBlueberry">Grow Blueberry</button>
         <button id="btn" type="submit" name="plantBlueberry">Grow one bush</button>
-        <p><?=$_SESSION['ID'] ?></p>
         </div>
     </div>
 </form> 

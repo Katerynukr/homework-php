@@ -2,7 +2,6 @@
 
 defined('DOOR_BELL') || die('enter only with log in');
 
-
 $fileName = 'growing';
 
 $store= new Garden\Store('garden');

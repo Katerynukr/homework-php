@@ -36,13 +36,13 @@ class Store{
         return $id;
     }
 
-    //METHOD THAT SAVES OBJECT INTO SESSION
-    public function sessionSaveNewObject($object){
+    //METHOD THAT SAVES OBJECT INTO JSON
+    public function saveNewObject($object){
         $this->data['garden'][] = serialize($object);
     }
 
-    //METHOD THAT DELETES OBJECT FROM SESSION
-    public function sessionDeleteObject(string $fileName, $id ){
+    //METHOD THAT DELETES OBJECT FROM JSON
+    public function deleteObject(string $fileName, $id ){
         foreach($this->data['garden'] as $index => $berry){
             $bush = unserialize($berry);
             if($id ==  $bush -> bushID ){
@@ -52,8 +52,8 @@ class Store{
         }
     }
 
-    public function getAll()
-    {
+    //METHOD THAT GET ALL ELEMENTS FROM JSON
+    public function getAll(){
         $all = [];
         foreach($this->data['garden'] as $obj) {
             $all[] = unserialize($obj);
