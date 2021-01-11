@@ -13,7 +13,7 @@ class APP{
         }elseif('growing' === $uri[0]){
             include DIR.'/growing.php';
         } elseif('removing' === $uri[0]){
-            include DIR.'/growing.php';
+            include DIR.'/removing.php';
         } 
     }
 
@@ -21,7 +21,7 @@ class APP{
     //METHOD THAT REDIRECTS PAGE (FROM POST TO GET)
     public static function redirect(string $file){
         header('Location:' .URL.$file);
-        exit;
+        exit();
     }
 
     //METHOD THAT CHECKS HOW MANY OBJECT WERE SELECTED TO PLANT
@@ -35,47 +35,7 @@ class APP{
             }
             APP::redirect($fileName);
         }
-    }
-
-    //METHOD THAT UNSETS OBJECT 
-    public static function unset($id){
-            unset($_SESSION['garden'][$id]); 
-    }
-
-     //METHOD THAT DELETES ALL BUSHES 
-     public static function delete(){
-        foreach($_SESSION['garden'] as $id => $berry){
-            APP::unset($id);
-         }
-    }
-
-
-    //METHOD THAT COLLECTS ALL BERRIES FROM ONE BUSH
-    public static function collectAllBerries(){
-        foreach($_SESSION['garden'] as $index => $berry){
-            $bush =  APP::objectUnserialize($berry);
-            if($_POST['collectALL'] == $bush ->  bushID){
-                $bush-> collectAll();
-                APP::sessionSaveObjectByIndex($index, $bush);
-            }
-        }
-    }
-
-    //METHOD THAT COLLECTS SPECIFIC AMOUNT OF BERRIES FROM ONE BUSH
-    public static function collectSpecificAmount(){
-        foreach($_SESSION['garden'] as $index => $berry){
-            $bush = APP::objectUnserialize($berry);
-            if($_POST['collect'] == $bush ->  bushID){
-                if($_POST['howMany'][ $bush -> bushID ] !== ''){
-                    $howmuch = $_POST['howMany'][ $bush -> bushID ];
-                    $bush -> collect($howmuch);
-                    APP::sessionSaveObjectByIndex($index, $bush);
-                }
-            }
-        }
-    }
-
-    
+    }    
 
     // //METHOD THAT CHECKS EXISTANCE OF SESSION
     // public static function isSessionCreated(){
@@ -129,4 +89,43 @@ class APP{
     //  //METHOD THAT SAVES OBJECT INTO SESSION BY INDEX
     //  public static function sessionSaveObjectByIndex($index, $object){
     //     $_SESSION['garden'][$index] = APP::objectSerialize($object);
+    // }
+
+    // //METHOD THAT DELETES ALL BUSHES 
+    // public static function delete(){
+    //     foreach($_SESSION['garden'] as $id => $berry){
+    //         APP::unset($id);
+    //      }
+    // }
+
+    //     //METHOD THAT UNSETS OBJECT 
+    //     public static function unset($id){
+    //         unset($_SESSION['garden'][$id]); 
+    // }
+
+
+    // //METHOD THAT COLLECTS ALL BERRIES FROM ONE BUSH
+    // public static function collectAllBerries(){
+    //     foreach($_SESSION['garden'] as $index => $berry){
+    //         $bush =  APP::objectUnserialize($berry);
+    //         if($_POST['collectALL'] == $bush ->  bushID){
+    //             $bush-> collectAll();
+    //             APP::sessionSaveObjectByIndex($index, $bush);
+    //         }
+    //     }
+    // }
+
+
+    // //METHOD THAT COLLECTS SPECIFIC AMOUNT OF BERRIES FROM ONE BUSH
+    // public static function collectSpecificAmount(){
+    //     foreach($_SESSION['garden'] as $index => $berry){
+    //         $bush = APP::objectUnserialize($berry);
+    //         if($_POST['collect'] == $bush ->  bushID){
+    //             if($_POST['howMany'][ $bush -> bushID ] !== ''){
+    //                 $howmuch = $_POST['howMany'][ $bush -> bushID ];
+    //                 $bush -> collect($howmuch);
+    //                 APP::sessionSaveObjectByIndex($index, $bush);
+    //             }
+    //         }
+    //     }
     // }

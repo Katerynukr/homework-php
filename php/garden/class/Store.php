@@ -63,12 +63,52 @@ class Store{
 
      //METHOD THAT GROWS BERRIES ON BUSHES 
      public function grow(){
-         _d($this->data['garden']);
         foreach( $this->data['garden'] as $index => $berry){
             $bush = unserialize($berry);
             $howMuch = $_POST['berry'][$bush->bushID];
             $bush->growBerries();
             $this->data['garden'][$index] = serialize($bush);
+        }
+    }
+
+    //METHOD THAT CHECKS ARE ANY BERRIES PLANTED
+    public function areBerries(){
+        if(empty($this->data['garden'])){
+            echo 'You can\'t collect berries!';
+            APP::redirect('planting'); 
+        }
+    }
+
+
+    //METHOD THAT DELETES ALL BUSHES 
+    public function delete(){
+        foreach( $this->data['garden'] as $index => $berry){
+            unset($this->data['garden'][$index]);
+         }
+    }
+
+    //METHOD THAT COLLECTS ALL BERRIES FROM ONE BUSH
+    public function collectAllBerries(){
+        foreach($this->data['garden'] as $index => $berry){
+            $bush =  unserialize($berry);
+            if($_POST['collectALL'] == $bush->bushID){
+                $bush-> collectAll();
+                $this->data['garden'][$index] = serialize($bush);
+            }
+        }
+    }
+
+    //METHOD THAT COLLECTS SPECIFIC AMOUNT OF BERRIES FROM ONE BUSH
+    public function collectSpecificAmount(){
+        foreach($this->data['garden'] as $index => $berry){
+            $bush = unserialize($berry);
+            if($_POST['collect'] == $bush->bushID){
+                if($_POST['howMany'][ $bush->bushID ] !== ''){
+                    $howmuch = $_POST['howMany'][ $bush -> bushID ];
+                    $bush->collect($howmuch);
+                    $this->data['garden'][$index] = serialize($bush);
+                }
+            }
         }
     }
 }

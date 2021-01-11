@@ -1,40 +1,33 @@
 <?php
 defined('DOOR_BELL') || die('enter only with log in');
 
+$store = new Garden\Store('garden');
 
-$fileName = 'removing.php';
-$filePlant = 'planting.php';
+$fileName = 'removing';
+$filePlant = 'planting';
 
 /*does session exist*/
-if(!isset($_SESSION['garden'])){
-    echo 'You can\'t collect berries!';
-    APP::redirect($fileName); 
-}
-
-function myAlert() { 
-    echo '<script language="javascript">';
-    echo 'alert("message successfully sent")';
-    echo '</script>';
-} 
+$store->areBerries();
 
 /*collecting all berries*/
 if(isset($_POST['collectALL'])){
-    APP::collectAllBerries();
-    APP::redirect($fileName); 
+    $store->collectAllBerries();
+    Garden\APP::redirect($fileName); 
 }
 
 
 /*deleating all bushes*/
 if(isset($_POST['remove'])){
-    APP::delete();
-    APP::redirect($filePlant);   
+    $store->delete();
+    Garden\APP::redirect($filePlant);   
 }
 
 /*colecting specific number of berries*/
 if(isset($_POST['collect'])){
-    APP::collectSpecificAmount();
-    APP::redirect($fileName); 
+    $store->collectSpecificAmount();
+    Garden\APP::redirect($fileName); 
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -167,22 +160,21 @@ if(isset($_POST['collect'])){
 </head>
 <body>
 <div class="nav">
-    <a href="http://localhost/try/php/garden/planting.php">go to plant</a>
-    <a href="http://localhost/try/php/garden/removing.php">go to collect</a>
-    <a href="http://localhost/try/php/garden/growing.php">go to grow</a>
+    <a href="http://localhost/try/php/garden/planting">go to plant</a>
+    <a href="http://localhost/try/php/garden/removing">go to collect</a>
+    <a href="http://localhost/try/php/garden/growing">go to grow</a>
 </div>
-<form action="?" method="post">
+<form action="" method="post">
     <div class="garden">
-        <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = APP::objectUnserialize($berry);?>
+        <?php foreach($store->getALL() as $berry): ?>
         <div class="strawberry">
-        <img src=<?=$bush-> imgPath ?>>
+        <img src=<?=$berry->imgPath ?>>
         <div class="description">
-        Bush # <?= $bush -> bushID ?>
-        Possible to collect: <?= $bush ->  berriesAmount ?> berries.
-        <input type="text" id="berryNumbers" name="howMany[<?= $bush -> bushID?>]" onkeyup="return checkup(this);">
-        <button class="btn-s" type="submit" name="collect" value="<?= $bush -> bushID ?>">Collect</button>
-        <button class="btn-s" type="submit" id="collectAll" name="collectALL" value="<?= $bush -> bushID ?>">Collect all berries</button>
+        Bush # <?= $berry->bushID ?>
+        Possible to collect: <?= $berry->berriesAmount ?> berries.
+        <input type="text" id="berryNumbers" name="howMany[<?= $berry->bushID ?>]" onkeyup="return checkup(this);">
+        <button class="btn-s" type="submit" name="collect" value="<?= $berry->bushID ?>">Collect</button>
+        <button class="btn-s" type="submit" id="collectAll" name="collectALL" value="<?= $berry -> bushID ?>">Collect all berries</button>
         </div>
         </div>
         <?php endforeach ?>
