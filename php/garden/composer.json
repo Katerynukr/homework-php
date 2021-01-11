@@ -1,6 +1,6 @@
 {
     "name": "kateryna/garden",
-    "description": "garden of berries",
+    "description": "garden on berries",
     "license": "MIT",
     "authors": [
         {
@@ -8,5 +8,10 @@
             "email": "kateryna_neholiuk@ukr.net"
         }
     ],
+     "autoload":{
+            "psr-4":{
+                "Garden\\": "class"
+            }
+        },
     "require": {}
 }

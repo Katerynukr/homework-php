@@ -1,11 +1,6 @@
 <?php
-session_start();
+defined('DOOR_BELL') || die('enter only with log in');
 
-include __DIR__.'/APP.php';
-include __DIR__.'/Features.php';
-include __DIR__.'/Berries.php';
-include __DIR__.'/Strawberry.php';
-include __DIR__.'/Blueberry.php';
 
 $fileName = 'removing.php';
 $filePlant = 'planting.php';

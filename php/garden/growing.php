@@ -1,25 +1,16 @@
 <?php
-session_start();
-// session_destroy();
 
-include __DIR__.'/APP.php';
-include __DIR__.'/Features.php';
-include __DIR__.'/Berries.php';
-include __DIR__.'/Strawberry.php';
-include __DIR__.'/Blueberry.php';
+defined('DOOR_BELL') || die('enter only with log in');
 
-$fileName = 'growing.php';
 
-/*does session exist*/
-if(!isset($_SESSION['garden'])){
-    $_SESSION['garden'] = [];
-    $_SESSION['ID'] = 0;
-}
+$fileName = 'growing';
+
+$store= new Garden\Store('garden');
 
 /*growing berries*/
 if(isset($_POST['grow'])){
-    APP::grow();
-    APP::redirect($fileName); 
+    $store->grow();
+    Garden\APP::redirect($fileName); 
 }
 ?>
 
@@ -125,21 +116,19 @@ if(isset($_POST['grow'])){
 </head>
 <body>
 <div class="nav">
-    <a href="http://localhost/try/php/garden/planting.php">go to plant</a>
-    <a href="http://localhost/try/php/garden/removing.php">go to collect</a>
-    <a href="http://localhost/try/php/garden/growing.php">go to grow</a>
+    <a href="http://localhost/try/php/garden/planting">go to plant</a>
+    <a href="http://localhost/try/php/garden/removing">go to collect</a>
+    <a href="http://localhost/try/php/garden/growing">go to grow</a>
 </div>
 <form action="" method="post">
     <div class="garden">
-        <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush =  APP::objectUnserialize($berry)?>
-        <?php _d($bush, 'foeach')?>
+        <?php foreach($store->getAll() as $berry): ?>
         <div class="strawberry">
-        <img src=<?=$bush->imgPath?>>
+        <img src=<?=$berry->imgPath?>>
         <div class="description">
-        <input type="hidden" name="berry[<?= $bush -> bushID ?>]">
-        Number of berries : <?= $bush ->  berriesAmount ?>
-        + <?=$bush ->toGrow ?>
+        <input type="hidden" name="berry[<?= $berry -> bushID ?>]">
+        Number of berries : <?= $berry ->  berriesAmount ?>
+        + <?=$berry ->toGrow ?>
         </div>
         </div>
         <?php endforeach ?>
@@ -149,4 +138,3 @@ if(isset($_POST['grow'])){
 </body>
 </html>
 
-<!-- why was not working method on unserialised object -->

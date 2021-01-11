@@ -1,4 +1,5 @@
 <?php
+namespace Garden;
 
 class Blueberry extends Berries  implements Features{
     public int $berriesAmount = 0;

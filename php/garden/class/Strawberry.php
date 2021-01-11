@@ -1,4 +1,5 @@
 <?php
+namespace Garden;
 
 class Strawberry extends Berries implements Features{
     public int $berriesAmount = 0;

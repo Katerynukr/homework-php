@@ -1,67 +1,52 @@
 <?php 
 defined('DOOR_BELL') || die('enter only with log in');
 
-// session_destroy();
-include __DIR__.'/APP.php';
-include __DIR__.'/Features.php';
-include __DIR__.'/Berries.php';
-include __DIR__.'/Strawberry.php';
-include __DIR__.'/Blueberry.php';
+$store= new Garden\Store('garden');
+_d($store-> getData());
 
 $fileName = 'planting';
 
-/*does session exist*/
-if(!isset($_SESSION['garden'])){
-    $_SESSION['garden'] = [];
-    $_SESSION['ID'] = 0;
-}
-
 /*planting a strawberry bush*/
 if(isset($_POST['plant'])){
-    APP::increaseSessionID();
-    // $_SESSION['ID'] = APP::increaseSessionID(); 
-    $object = new Strawberry($_SESSION['ID']);
-    APP::sessionSaveObject($object);
-    APP::redirect($fileName); 
+    $object = new Garden\Strawberry($store->getNewID());
+    $store->sessionSaveNewObject($object);
+    Garden\APP::redirect($fileName); 
 }
 
 /*planting a blueberyy bush*/
 if(isset($_POST['plantBlueberry'])){
-    APP::increaseSessionID();
-    $object = new Blueberry($_SESSION['ID']);
-    APP::sessionSaveObject($object);
-    APP::redirect($fileName); 
+    $object = new Garden\Blueberry($store->getNewID());
+    $store->sessionSaveNewObject($object);
+    Garden\APP::redirect($fileName); 
 }
 
 /* planting many strawberry bushes at once*/
 if(isset($_POST['howManyPlant'])){
     $amount = (int) $_POST['howMany'];
-    APP::checkObjectsToGrow($amount, $fileName);
+    Garden\APP::checkObjectsToGrow($amount, $fileName);
     foreach(range(1, $amount) as $strawberry){
-        APP::increaseSessionID();
-        $object = new Strawberry($_SESSION['ID']);
-        APP::sessionSaveObject($object);
+        $object = new Garden\Strawberry($store->getNewID());
+        $store->sessionSaveNewObject($object);
     }
-        APP::redirect($fileName);
+        Garden\APP::redirect($fileName);
     
 }
 
 /* planting many blueberry bushes at once*/
 if(isset($_POST['howManyBlueberry'])){
     $amount = (int) $_POST['howMany'];
-    APP::checkObjectsToGrow($amount, $fileName);
+    Garden\APP::checkObjectsToGrow($amount, $fileName);
     foreach(range(1, $amount) as $blueberry){
-        APP::increaseSessionID();
-        $object = new Blueberry($_SESSION['ID']);
-        APP::sessionSaveObject($object);
+        $object = new Garden\Blueberry($store->getNewID());
+        $store->sessionSaveNewObject($object);
     }
-     APP::redirect($fileName);
+     Garden\APP::redirect($fileName);
     
 }
 
 /*deleating a bush*/
 if(isset($_POST['delete'])){
-    APP::sessionDeleteObject($fileName);
+    $store->sessionDeleteObject($fileName, $_POST['delete'] );
 }
 
 ?>
@@ -203,21 +188,20 @@ if(isset($_POST['delete'])){
 <body>
 <a href="login.php?logout" class="btn-m">Log out</a>
 <div class="nav">
-    <a href="http://localhost/try/php/garden/planting.php">go to plant</a>
-    <a href="http://localhost/try/php/garden/removing.php">go to collect</a>
-    <a href="http://localhost/try/php/garden/growing.php">go to grow</a>
+    <a href="http://localhost/try/php/garden/planting">go to plant</a>
+    <a href="http://localhost/try/php/garden/removing">go to collect</a>
+    <a href="http://localhost/try/php/garden/growing">go to grow</a>
 </div>
 <form action="" method="post">
     <div class="garden">
         <?php include __DIR__.'/error.php' ?>
-        <?php foreach($_SESSION['garden'] as $berry): ?>
-        <?php $bush = APP::objectUnserialize($berry);?>
+        <?php foreach($store->getAll() as $berry): ?>
         <div class="strawberry">
-        <img src=<?=$bush -> imgPath?>>
+        <img src=<?=$berry->imgPath?>>
         <div class="description">
-        Strawberry number : <?= $bush -> bushID ?>
-        Number of berries : <?=  $bush ->  berriesAmount?>
-        <button class="btn-s" type="submit" name="delete" value="<?=  $bush -> bushID ?>">Delete</button>
+        Strawberry number : <?= $berry->bushID ?>
+        Number of berries : <?=  $berry->berriesAmount?>
+        <button class="btn-s" type="submit" name="delete" value="<?=  $berry -> bushID ?>">Delete</button>
         </div>
         </div>
         <?php endforeach ?>

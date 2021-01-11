@@ -1,4 +1,5 @@
 <?php
+namespace Garden;
 
 abstract class Berries{
     public int $berriesAmount = 0;
