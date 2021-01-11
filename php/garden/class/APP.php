@@ -36,16 +36,15 @@ class APP{
             APP::redirect($fileName);
         }
     }    
-
-    // //METHOD THAT CHECKS EXISTANCE OF SESSION
-    // public static function isSessionCreated(){
-    //     if(!isset($_SESSION['garden'])){
-    //         $_SESSION['garden'] = [];
-    //         $_SESSION['ID'] = 0;
-    //     }
-    // }
 }
 
+    // //METHOD THAT CHECKS EXISTANCE OF SESSION
+        // public static function isSessionCreated(){
+        //     if(!isset($_SESSION['garden'])){
+        //         $_SESSION['garden'] = [];
+        //         $_SESSION['ID'] = 0;
+        //     }
+        // }
 
     // //METHOD THAT DELETES OBJECT FROM SESSION
     // public static function sessionDeleteObject(string $fileName){
