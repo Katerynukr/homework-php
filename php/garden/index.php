@@ -8,4 +8,4 @@ define('DOOR_BELL', true);
 include __DIR__.'/bootstrap.php';
 
 
-_d(Garden\APP::route());
+Garden\APP::route();

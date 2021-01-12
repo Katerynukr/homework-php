@@ -1,52 +1,91 @@
 <?php 
 defined('DOOR_BELL') || die('enter only with log in');
 $store= new Garden\Store('garden');
-_d($store-> getData());
 
 $fileName = 'planting';
 
-/*planting a strawberry bush*/
-if(isset($_POST['plant'])){
-    $object = new Garden\Strawberry($store->getNewID());
-    $store->saveNewObject($object);
-    Garden\APP::redirect($fileName); 
-}
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $rawData = file_get_contents("php://input");
+    $rawData = json_decode($rawData);
 
-/*planting a blueberyy bush*/
-if(isset($_POST['plantBlueberry'])){
-    $object = new Garden\Blueberry($store->getNewID());
-    $store->saveNewObject($object);
-    Garden\APP::redirect($fileName); 
-}
-
-/* planting many strawberry bushes at once*/
-if(isset($_POST['howManyPlant'])){
-    $amount = (int) $_POST['howMany'];
-    Garden\APP::checkObjectsToGrow($amount, $fileName);
-    foreach(range(1, $amount) as $strawberry){
+    if($rawData->btnName == 'delete'){ 
+        $idToDelete = $rawData->del;
+        _d($idToDelete, 'remove');
+        $store->deleteObject($fileName, $idToDelete );
+    }elseif($rawData->btnName == 'buttonGrowOneStraberry'){
+        /*planting a strawberry bush*/
         $object = new Garden\Strawberry($store->getNewID());
         $store->saveNewObject($object);
-    }
-        Garden\APP::redirect($fileName);
-    
-}
-
-/* planting many blueberry bushes at once*/
-if(isset($_POST['howManyBlueberry'])){
-    $amount = (int) $_POST['howMany'];
-    Garden\APP::checkObjectsToGrow($amount, $fileName);
-    foreach(range(1, $amount) as $blueberry){
+        header("Refresh:0");
+        // Garden\APP::redirect($fileName); 
+    } elseif($rawData->btnName == 'buttonGrowManyStraberry' ){
+        /* planting many strawberry bushes at once*/
+        $amount = $rawData->amount;
+        Garden\APP::checkObjectsToGrow($amount, $fileName);
+        foreach(range(1, $amount) as $strawberry){
+            $object = new Garden\Strawberry($store->getNewID());
+            $store->saveNewObject($object);
+        }
+            Garden\APP::redirect($fileName);
+    } elseif($rawData->btnName == 'buttonGrowOneBlueberry'  ){
+        /*planting a blueberyy bush*/
         $object = new Garden\Blueberry($store->getNewID());
         $store->saveNewObject($object);
+        Garden\APP::redirect($fileName); 
+    } elseif($rawData->btnName == 'buttonGrowManyBlueberry'){
+        /* planting many blueberry bushes at once*/
+        $amount = $rawData->amount;
+        Garden\APP::checkObjectsToGrow($amount, $fileName);
+        foreach(range(1, $amount) as $blueberry){
+            $object = new Garden\Blueberry($store->getNewID());
+            $store->saveNewObject($object);
+        }
+        Garden\APP::redirect($fileName);
     }
-     Garden\APP::redirect($fileName);
-    
+
 }
 
-/*deleating a bush*/
-if(isset($_POST['delete'])){
-    $store->deleteObject($fileName, $_POST['delete'] );
-}
+/*planting a strawberry bush*/
+// if(isset($_POST['plant'])){
+    // $object = new Garden\Strawberry($store->getNewID());
+    // $store->saveNewObject($object);
+    // Garden\APP::redirect($fileName); }
+
+// /*planting a blueberyy bush*/
+// if(isset($_POST['plantBlueberry'])){
+//     $object = new Garden\Blueberry($store->getNewID());
+//     $store->saveNewObject($object);
+//     Garden\APP::redirect($fileName); 
+// }
+
+// /* planting many strawberry bushes at once*/
+// if(isset($_POST['howManyPlant'])){
+//     $amount = (int) $_POST['howMany'];
+//     Garden\APP::checkObjectsToGrow($amount, $fileName);
+//     foreach(range(1, $amount) as $strawberry){
+//         $object = new Garden\Strawberry($store->getNewID());
+//         $store->saveNewObject($object);
+//     }
+//         Garden\APP::redirect($fileName);
+    
+// }
+
+// /* planting many blueberry bushes at once*/
+// if(isset($_POST['howManyBlueberry'])){
+//     $amount = (int) $_POST['howMany'];
+//     Garden\APP::checkObjectsToGrow($amount, $fileName);
+//     foreach(range(1, $amount) as $blueberry){
+//         $object = new Garden\Blueberry($store->getNewID());
+//         $store->saveNewObject($object);
+//     }
+//      Garden\APP::redirect($fileName);
+    
+// }
+
+// /*deleating a bush*/
+// if(isset($_POST['delete'])){
+//     $store->deleteObject($fileName, $_POST['delete'] );
+// }
 
 ?>
 <!DOCTYPE html>
@@ -163,7 +202,7 @@ if(isset($_POST['delete'])){
                 outline: 0 solid #b29881;
                 margin-right: 15px;
             }
-            #btn{
+            .btn{
                 width: 180px;
                 margin-top: 10px;
                 background-color:#ccae94;
@@ -183,15 +222,17 @@ if(isset($_POST['delete'])){
                 color: #ccae94;
             }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" defer integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+<script src="http://localhost/try/php/garden/app.js" defer></script>
+<script>const apiUrl = 'http://localhost/try/php/garden/planting';</script>
 </head>
 <body>
-<a href="login.php?logout" class="btn-m">Log out</a>
 <div class="nav">
     <a href="http://localhost/try/php/garden/planting">go to plant</a>
     <a href="http://localhost/try/php/garden/removing">go to collect</a>
     <a href="http://localhost/try/php/garden/growing">go to grow</a>
 </div>
-<form action="" method="post">
+<form action="" method="POST">
     <div class="garden">
         <?php include __DIR__.'/error.php' ?>
         <?php foreach($store->getAll() as $berry): ?>
@@ -200,18 +241,18 @@ if(isset($_POST['delete'])){
         <div class="description">
         Strawberry number : <?= $berry->bushID ?>
         Number of berries : <?=  $berry->berriesAmount?>
-        <button class="btn-s" type="submit" name="delete" value="<?=  $berry -> bushID ?>">Delete</button>
+        <button type="button" class="btn-s" name="delete" id="delete" value="<?=  $berry -> bushID ?>">Delete</button>
         </div>
         </div>
         <?php endforeach ?>
-        <input type="text" name="howMany">
+        <input type="text" id="howMany">
         <div>
-        <button id="btn" type="submit" name="howManyPlant">Grow Strawberry </button>
-        <button id="btn" type="submit" name="plant">Grow one bush</button>
+        <button type="button" class="btn" name="howManyPlant" id="growMS">Grow Strawberry </button>
+        <button type="button" class="btn" id="growS">Grow one bush</button>
         </div>
         <div>
-        <button id="btn" type="submit" name="howManyBlueberry">Grow Blueberry</button>
-        <button id="btn" type="submit" name="plantBlueberry">Grow one bush</button>
+        <button type="button" class="btn" name="howManyBlueberry" id="growMB">Grow Blueberry</button>
+        <button type="button" class="btn" name="plantBlueberry" id="growB">Grow one bush</button>
         </div>
     </div>
 </form> 
@@ -219,4 +260,4 @@ if(isset($_POST['delete'])){
 </html>
  
 
-<!-- why do we have to use serialize and what for it is used -->
+<!-- why does not redirect with class but only with responce?? -->
