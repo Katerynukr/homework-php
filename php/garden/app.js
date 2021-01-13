@@ -7,6 +7,28 @@ const buttonGrowManyBlueberry = document.querySelector('#growMB');
 const errorMsg = document.querySelector('#error');
 const list = document.querySelector('#list');
 
+const addNewList = () => {
+    const BERRIES = document.querySelectorAll('.strawberry');
+    BERRIES.forEach(BERRY => {
+        BERRY.querySelector('[type=button]').addEventListener('click', () => {
+            const idDel = BERRY.querySelector('.btn-s').value;
+            axios.post(apiUrl, {
+                    id: idDel,
+                    delete: 1
+                })
+                .then(function(response) {
+                    console.log(response.data);
+                    list.innerHTML = response.data.list;
+                    addNewList();
+                })
+                .catch(function(error) {
+                    console.log(error.response.data);
+                    errorMsg.innerHTML = error.response.data;
+                });
+        });
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     axios.post(apiUrl, {
             list: 1,
@@ -16,11 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
             list.innerHTML = response.data.list;
             errorMsg.innerHTML = '';
             // augurku klases nodai, is naujo pasetint trynimo mygtuko eventus
-            // addNewList();
+            addNewList();
         })
         .catch(function(error) {
             // console.log(error.response.data.msg);
-            errorMsg.innerHTML = error.response.data.msg;
+            // errorMsg.innerHTML = error.response.data.msg;
         });
     })
 
@@ -31,6 +53,7 @@ buttonGrowOneStraberry.addEventListener('click', () => {
         .then(function(response) {
             // console.log(response);
             list.innerHTML = response.data.list;
+            addNewList();
         })
         .catch(function(error) {
             // console.log(error);
@@ -46,6 +69,7 @@ buttonGrowManyStraberry.addEventListener('click', () => {
         //     console.log(response.data);
             list.innerHTML = response.data.list;
             errorMsg.innerHTML = '';
+            addNewList();
         })
         .catch(function(error) {
             // console.log(error.response.data.msg);
@@ -59,6 +83,7 @@ buttonGrowOneBlueberry.addEventListener('click', () => {
         .then(function(response) {
             // console.log(response);
             list.innerHTML = response.data.list;
+            addNewList();
         })
         .catch(function(error) {
             // console.log(error);
@@ -74,6 +99,7 @@ buttonGrowManyBlueberry.addEventListener('click', () => {
             // console.log(response);
             list.innerHTML = response.data.list;
             errorMsg.innerHTML = '';
+            addNewList();
         })
         .catch(function(error) {
             // console.log(error);

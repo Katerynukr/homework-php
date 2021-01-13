@@ -6,10 +6,10 @@ $fileName = 'planting';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rawData = file_get_contents("php://input");
-    $rawData = json_decode($rawData); //decodes json string to object
+    $rawData = json_decode($rawData, 1); //decodes json string to object
 
     //LIST
-    if(isset($rawData->list)) {
+    if(isset($rawData['list'])) {
         ob_start();
         include __DIR__.'/list.php';
         $out = ob_get_contents();
@@ -23,11 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     //PLANTING
-    if($rawData->btnName == 'delete'){ 
-        $idToDelete = $rawData->del;
-        _d($idToDelete, 'remove');
-        $store->deleteObject($fileName, $idToDelete );
-    }elseif($rawData->btnName == 'buttonGrowOneStraberry'){
+   if(isset($rawData['btnName']) && $rawData['btnName'] == 'buttonGrowOneStraberry'){
 
         /*planting a strawberry bush*/
 
@@ -45,11 +41,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo $json;
         die;
         
-    } elseif($rawData->btnName == 'buttonGrowManyStraberry' ){
+    } elseif(isset($rawData['btnName']) && $rawData['btnName']== 'buttonGrowManyStraberry' ){
 
         /* planting many strawberry bushes at once*/
 
-        $amount = (int )$rawData->amount;
+        $amount = (int )$rawData['amount'];
         if($amount <= 0 || $amount > 4){
             if($amount < 0 || $amount == 0 ){
                 $error = 1;
@@ -81,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             http_response_code(201);
             echo $json;
             die;
-    } elseif($rawData->btnName == 'buttonGrowOneBlueberry'  ){
+    } elseif(isset($rawData['btnName']) && $rawData['btnName'] == 'buttonGrowOneBlueberry'  ){
 
         /*planting a blueberry bush*/
 
@@ -98,12 +94,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         http_response_code(201);
         echo $json;
         die;
-    } elseif($rawData->btnName == 'buttonGrowManyBlueberry'){
+    } elseif(isset($rawData['btnName']) && $rawData['btnName'] == 'buttonGrowManyBlueberry'){
 
         /* planting many blueberry bushes at once*/
 
-        $amount =(int) $rawData->amount;
-        $amount = (int )$rawData->amount;
+        $amount =(int) $rawData['amount'];
         if($amount <= 0 || $amount > 4){
             if($amount < 0 || $amount == 0 ){
                 $error = 1;
@@ -135,7 +130,38 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         http_response_code(201);
         echo $json;
         die;
+    } elseif(isset($rawData['delete']) && $rawData['delete'] == '1'){ 
+        $idToDelete = $rawData['id'];
+        _d($idToDelete, 'remove');
+        $store->deleteObject($idToDelete );
+        ob_start();
+        include __DIR__.'/list.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(200);
+        echo $json;
+        die;
     }
+
+    // //DELETING 
+    // if($rawData->delete){ 
+    //     $idToDelete = $rawData->id;
+    //     _d($idToDelete, 'remove');
+    //     $store->deleteObject($fileName, $idToDelete );
+    //     ob_start();
+    //     include __DIR__.'/list.php';
+    //     $out = ob_get_contents();
+    //     ob_end_clean();
+    //     $json = ['list' => $out];
+    //     $json = json_encode($json);
+    //     header('Content-type: application/json');
+    //     http_response_code(200);
+    //     echo $json;
+    //     die;
+    // }
 
 }
 

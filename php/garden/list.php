@@ -4,7 +4,7 @@
             <div class="description">
                 Strawberry number : <?= $berry->bushID ?>
                 Number of berries : <?=  $berry->berriesAmount?>
-                <button type="button" class="btn-s" name="delete" value="<?=  $berry -> bushID ?>">Delete</button>
+                <button type="button" class="btn-s" name="deleteElement" value="<?=  $berry -> bushID ?>">Delete</button>
             </div>
         </div>
 <?php endforeach ?>

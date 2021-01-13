@@ -42,12 +42,12 @@ class Store{
     }
 
     //METHOD THAT DELETES OBJECT FROM JSON
-    public function deleteObject(string $fileName, $id ){
+    public function deleteObject($id ){
         foreach($this->data['garden'] as $index => $berry){
             $bush = unserialize($berry);
             if($id ==  $bush -> bushID ){
                 unset($this->data['garden'][$index]);
-                APP::redirect($fileName);  
+                // APP::redirect($fileName);  
             }
         }
     }
