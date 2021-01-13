@@ -8,6 +8,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rawData = file_get_contents("php://input");
     $rawData = json_decode($rawData); //decodes json string to object
 
+    //LIST
+    if(isset($rawData->list)) {
+        ob_start();
+        include __DIR__.'/list.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(200);
+        echo $json;
+        die;
+    }
+
+    //PLANTING
     if($rawData->btnName == 'delete'){ 
         $idToDelete = $rawData->del;
         _d($idToDelete, 'remove');
@@ -123,43 +138,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
 }
-
-/*planting a strawberry bush*/
-// if(isset($_POST['plant'])){
-    // $object = new Garden\Strawberry($store->getNewID());
-    // $store->saveNewObject($object);
-    // Garden\APP::redirect($fileName); }
-
-// /*planting a blueberyy bush*/
-// if(isset($_POST['plantBlueberry'])){
-//     $object = new Garden\Blueberry($store->getNewID());
-//     $store->saveNewObject($object);
-//     Garden\APP::redirect($fileName); 
-// }
-
-// /* planting many strawberry bushes at once*/
-// if(isset($_POST['howManyPlant'])){
-//     $amount = (int) $_POST['howMany'];
-//     Garden\APP::checkObjectsToGrow($amount, $fileName);
-//     foreach(range(1, $amount) as $strawberry){
-//         $object = new Garden\Strawberry($store->getNewID());
-//         $store->saveNewObject($object);
-//     }
-//         Garden\APP::redirect($fileName);
-    
-// }
-
-// /* planting many blueberry bushes at once*/
-// if(isset($_POST['howManyBlueberry'])){
-//     $amount = (int) $_POST['howMany'];
-//     Garden\APP::checkObjectsToGrow($amount, $fileName);
-//     foreach(range(1, $amount) as $blueberry){
-//         $object = new Garden\Blueberry($store->getNewID());
-//         $store->saveNewObject($object);
-//     }
-//      Garden\APP::redirect($fileName);
-    
-// }
 
 // /*deleating a bush*/
 // if(isset($_POST['delete'])){

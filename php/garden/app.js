@@ -7,6 +7,23 @@ const buttonGrowManyBlueberry = document.querySelector('#growMB');
 const errorMsg = document.querySelector('#error');
 const list = document.querySelector('#list');
 
+document.addEventListener('DOMContentLoaded', () => {
+    axios.post(apiUrl, {
+            list: 1,
+        })
+        .then(function(response) {
+            // console.log(response.data);
+            list.innerHTML = response.data.list;
+            errorMsg.innerHTML = '';
+            // augurku klases nodai, is naujo pasetint trynimo mygtuko eventus
+            // addNewList();
+        })
+        .catch(function(error) {
+            // console.log(error.response.data.msg);
+            errorMsg.innerHTML = error.response.data.msg;
+        });
+    })
+
 buttonGrowOneStraberry.addEventListener('click', () => {
     axios.post(apiUrl, {
             btnName: 'buttonGrowOneStraberry'
