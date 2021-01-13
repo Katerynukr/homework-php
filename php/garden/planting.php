@@ -6,41 +6,120 @@ $fileName = 'planting';
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $rawData = file_get_contents("php://input");
-    $rawData = json_decode($rawData);
+    $rawData = json_decode($rawData); //decodes json string to object
 
     if($rawData->btnName == 'delete'){ 
         $idToDelete = $rawData->del;
         _d($idToDelete, 'remove');
         $store->deleteObject($fileName, $idToDelete );
     }elseif($rawData->btnName == 'buttonGrowOneStraberry'){
+
         /*planting a strawberry bush*/
+
         $object = new Garden\Strawberry($store->getNewID());
         $store->saveNewObject($object);
-        header("Refresh:0");
-        // Garden\APP::redirect($fileName); 
+        
+        ob_start();
+        include __DIR__.'/list.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(201);
+        echo $json;
+        die;
+        
     } elseif($rawData->btnName == 'buttonGrowManyStraberry' ){
+
         /* planting many strawberry bushes at once*/
-        $amount = $rawData->amount;
-        Garden\APP::checkObjectsToGrow($amount, $fileName);
+
+        $amount = (int )$rawData->amount;
+        if($amount <= 0 || $amount > 4){
+            if($amount < 0 || $amount == 0 ){
+                $error = 1;
+            } elseif($amount > 4){
+                $error = 2;
+            }
+            ob_start();
+            include __DIR__.'/error.php';
+            $out = ob_get_contents();
+            ob_end_clean();
+            $json = ['msg' => $out];
+            $json = json_encode($json);
+            header('Content-type: application/json');
+            http_response_code(400);
+            echo $json;
+            die;
+        }
         foreach(range(1, $amount) as $strawberry){
             $object = new Garden\Strawberry($store->getNewID());
             $store->saveNewObject($object);
         }
-            Garden\APP::redirect($fileName);
+            ob_start();
+            include __DIR__.'/list.php';
+            $out = ob_get_contents();
+            ob_end_clean();
+            $json = ['list' => $out];
+            $json = json_encode($json);
+            header('Content-type: application/json');
+            http_response_code(201);
+            echo $json;
+            die;
     } elseif($rawData->btnName == 'buttonGrowOneBlueberry'  ){
-        /*planting a blueberyy bush*/
+
+        /*planting a blueberry bush*/
+
         $object = new Garden\Blueberry($store->getNewID());
         $store->saveNewObject($object);
-        Garden\APP::redirect($fileName); 
+        
+        ob_start();
+        include __DIR__.'/list.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(201);
+        echo $json;
+        die;
     } elseif($rawData->btnName == 'buttonGrowManyBlueberry'){
+
         /* planting many blueberry bushes at once*/
-        $amount = $rawData->amount;
-        Garden\APP::checkObjectsToGrow($amount, $fileName);
+
+        $amount =(int) $rawData->amount;
+        $amount = (int )$rawData->amount;
+        if($amount <= 0 || $amount > 4){
+            if($amount < 0 || $amount == 0 ){
+                $error = 1;
+            } elseif($amount > 4){
+                $error = 2;
+            }
+            ob_start();
+            include __DIR__.'/error.php';
+            $out = ob_get_contents();
+            ob_end_clean();
+            $json = ['msg' => $out];
+            $json = json_encode($json);
+            header('Content-type: application/json');
+            http_response_code(400);
+            echo $json;
+            die;
+        }
         foreach(range(1, $amount) as $blueberry){
             $object = new Garden\Blueberry($store->getNewID());
             $store->saveNewObject($object);
         }
-        Garden\APP::redirect($fileName);
+        ob_start();
+        include __DIR__.'/list.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(201);
+        echo $json;
+        die;
     }
 
 }
@@ -232,20 +311,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     <a href="http://localhost/try/php/garden/removing">go to collect</a>
     <a href="http://localhost/try/php/garden/growing">go to grow</a>
 </div>
+<div id="error"></div>
 <form action="" method="POST">
     <div class="garden">
-        <?php include __DIR__.'/error.php' ?>
-        <?php foreach($store->getAll() as $berry): ?>
-        <div class="strawberry">
-        <img src=<?=$berry->imgPath?>>
-        <div class="description">
-        Strawberry number : <?= $berry->bushID ?>
-        Number of berries : <?=  $berry->berriesAmount?>
-        <button type="button" class="btn-s" name="delete" id="delete" value="<?=  $berry -> bushID ?>">Delete</button>
-        </div>
-        </div>
-        <?php endforeach ?>
-        <input type="text" id="howMany">
+    <div id="list"></div>
+        <input type="text" name="howMany">
         <div>
         <button type="button" class="btn" name="howManyPlant" id="growMS">Grow Strawberry </button>
         <button type="button" class="btn" id="growS">Grow one bush</button>
@@ -258,6 +328,3 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 </form> 
 </body>
 </html>
- 
-
-<!-- why does not redirect with class but only with responce?? -->
