@@ -4,8 +4,16 @@ if(!empty($_POST)){
     $town1 = $_POST['t1'];
     $town2 = $_POST['t2'];
 
-    // $_SESSION['method'] = false === $answer ? 'API' : 'CATCHE';
+    //CACHE START
+
+    include __DIR__ . '/Cache.php';
+    $DATA = new Cache;
+    $answer = $DATA->get();
+    $_SESSION['method'] = false === $answer ? 'API' : 'CATCHE';
+    if (false === $answer) {
+
     //API START
+    
     $ch = curl_init();//object-resource
     curl_setopt(
     $ch, CURLOPT_URL, 
@@ -15,11 +23,12 @@ if(!empty($_POST)){
     $answer = curl_exec($ch); // send and wait for answer(till no answ - nothing below works)
     $answer = json_decode($answer); //from json
 
-    // $DATA->set($answer); // <---- uzkesinam naujus duomenis
-    $distance = $answer->distance;
+    $DATA->set($answer); // <---- cache new data
+
 
     //API END
-    $_SESSION['distance'] = $distance;
+    }
+    $_SESSION['distance'] = $answer->distance;
     $_SESSION['town1'] = $town1;
     $_SESSION['town2'] = $town2;
     $_SESSION['img1'] = $answer->stops[0]->wikipedia->image;
@@ -54,7 +63,7 @@ if(isset($_SESSION['distance'])){
     </form>
 
     <?php if(isset($distance)): ?>
-    <!-- <h2> Būdas: <?= $method ?> </h2> -->
+    <h2> Method: <?= $method ?> </h2>
     <h2>The distance is <?= $distance?> km </h2>
     <img style="width: 100px;" src="<?= $img1 ?? '' ?>">
     <img style="width: 100px;" src="<?= $img2 ?? '' ?>">
