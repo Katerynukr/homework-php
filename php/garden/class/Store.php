@@ -88,10 +88,10 @@ class Store{
     }
 
     //METHOD THAT COLLECTS ALL BERRIES FROM ONE BUSH
-    public function collectAllBerries(){
+    public function collectAllBerries($idToDelete){
         foreach($this->data['garden'] as $index => $berry){
             $bush =  unserialize($berry);
-            if($_POST['collectALL'] == $bush->bushID){
+            if($idToDelete == $bush->bushID){
                 $bush-> collectAll();
                 $this->data['garden'][$index] = serialize($bush);
             }
@@ -99,13 +99,12 @@ class Store{
     }
 
     //METHOD THAT COLLECTS SPECIFIC AMOUNT OF BERRIES FROM ONE BUSH
-    public function collectSpecificAmount(){
+    public function collectSpecificAmount($idToDelete, $amount){
         foreach($this->data['garden'] as $index => $berry){
             $bush = unserialize($berry);
-            if($_POST['collect'] == $bush->bushID){
-                if($_POST['howMany'][ $bush->bushID ] !== ''){
-                    $howmuch = $_POST['howMany'][ $bush -> bushID ];
-                    $bush->collect($howmuch);
+            if($idToDelete == $bush->bushID){
+                if($amount !== ''){
+                    $bush->collect($amount);
                     $this->data['garden'][$index] = serialize($bush);
                 }
             }

@@ -9,24 +9,90 @@ $filePlant = 'planting';
 /*does session exist*/
 $store->areBerries();
 
-/*collecting all berries*/
-if(isset($_POST['collectALL'])){
-    $store->collectAllBerries();
-    Garden\APP::redirect($fileName); 
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $rawData = file_get_contents("php://input");
+    $rawData = json_decode($rawData, 1); //decodes json string to object
+
+    //LIST
+    if(isset($rawData['list'])) {
+        ob_start();
+        include __DIR__.'/listCollect.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(200);
+        echo $json;
+        die;
+    }
+
+    //COLLECT ALL BUSHES
+    if(isset($rawData['btnCollect']) && $rawData['btnCollect'] == 'removeEverything'){
+        $store->delete();
+        ob_start();
+        include __DIR__.'/listCollect.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['output' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(201);
+        echo $json;
+        die;
+    }
+    //COLLECT ALL BERRIES   
+    if(isset($rawData['delete']) && $rawData['delete'] == '1'){
+        $idToDelete = $rawData['id'];
+        $store->collectAllBerries($idToDelete);
+        ob_start();
+        include __DIR__.'/listCollect.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(201);
+        echo $json;
+        die;
+    }
+    //COLLECT SPECIFIC AMOUNT OF BERRIES
+    if(isset($rawData['delete']) && $rawData['delete'] == '2'){
+        $idToDelete = $rawData['id'];
+        $amount = $rawData['howMuch'];
+        $store->collectSpecificAmount($idToDelete, $amount);
+        ob_start();
+        include __DIR__.'/listCollect.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        $json = ['list' => $out];
+        $json = json_encode($json);
+        header('Content-type: application/json');
+        http_response_code(201);
+        echo $json;
+        die;
+    }
 }
 
+// //COLLECT ALL BERRIES
+// if(isset($_POST['collectALL'])){
+//     $store->collectAllBerries();
+//     Garden\APP::redirect($fileName); 
+// }
 
-/*deleating all bushes*/
-if(isset($_POST['remove'])){
-    $store->delete();
-    Garden\APP::redirect($filePlant);   
-}
 
-/*colecting specific number of berries*/
-if(isset($_POST['collect'])){
-    $store->collectSpecificAmount();
-    Garden\APP::redirect($fileName); 
-}
+// /*deleating all bushes*/
+// if(isset($_POST['remove'])){
+//     $store->delete();
+//     Garden\APP::redirect($filePlant);   
+// }
+
+// /*colecting specific number of berries*/
+// if(isset($_POST['collect'])){
+//     $store->collectSpecificAmount();
+//     Garden\APP::redirect($fileName); 
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -136,7 +202,7 @@ if(isset($_POST['collect'])){
                     margin-left:40px;
                 }
 
-            #btn{
+            .btn{
                 width: 180px;
                 margin-left: calc( (100% - 180px) / 2 );
                 margin-top: 10px;
@@ -149,13 +215,16 @@ if(isset($_POST['collect'])){
                 border-radius:20px;
                 outline: 0 solid #b29881;
             }
-            #btn:hover{
+            .btn:hover{
                 background-color:#fff7f1;
                 color: #ccae94;
                 border: 2px solid #b29881;
                 border-radius:20px;
             }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" defer integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+<script src="http://localhost/try/php/garden/appCollect.js" defer></script>
+<script>const apiUrl = 'http://localhost/try/php/garden/removing';</script>
 </head>
 <body>
 <div class="nav">
@@ -165,7 +234,8 @@ if(isset($_POST['collect'])){
 </div>
 <form action="" method="post">
     <div class="garden">
-        <?php foreach($store->getALL() as $berry): ?>
+        <div id="listCollect"></div>
+        <!-- <?php foreach($store->getALL() as $berry): ?>
         <div class="strawberry">
         <img src=<?=$berry->imgPath ?>>
         <div class="description">
@@ -176,8 +246,8 @@ if(isset($_POST['collect'])){
         <button class="btn-s" type="submit" id="collectAll" name="collectALL" value="<?= $berry -> bushID ?>">Collect all berries</button>
         </div>
         </div>
-        <?php endforeach ?>
-        <button id="btn" type="submit" name="remove">Remove all garden</button>
+        <?php endforeach ?> -->
+        <button class="btn" id="removeEverything" type="submit" name="remove">Remove all garden</button>
     </div>
 </form> 
 <script>
