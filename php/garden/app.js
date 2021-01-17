@@ -1,5 +1,3 @@
-
-
 const buttonGrowOneStraberry = document.querySelector('#growS');
 const buttonGrowManyStraberry = document.querySelector('#growMS');
 const buttonGrowOneBlueberry = document.querySelector('#growB');
@@ -106,32 +104,7 @@ buttonGrowManyBlueberry.addEventListener('click', () => {
             errorMsg.innerHTML = error.response.data.msg;
         });
 });
-// deleteBerry.forEach(element => {
-//     element.addEventListener('click', () => {
-//         const remove = deleteBerry.value;
-//         axios.post(apiUrl, {
-//                 btnName: 'delete',
-//                 del: remove
-//             })
-//             .then(function(response) {
-//                 console.log(response.data);
-          
-//             })
-//             .catch(function(error) {
-//                 console.log(error);
-//             });
-// });
-// deleteBerry.addEventListener('click', () => {
-//     const remove = deleteBerry.value;
-//     axios.post(apiUrl, {
-//             btnName: 'delete',
-//             del: remove
-//         })
-//         .then(function(response) {
-//             console.log(response);
-//             window.location.reload();
-//         })
-//         .catch(function(error) {
-//             console.log(error);
-//         });
-// });
+
+const listOfBerries = document.querySelector('#listOfBerries');
+
+const buttonBerries = document.querySelector('#growBerries');

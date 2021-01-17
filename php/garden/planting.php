@@ -1,10 +1,36 @@
 <?php 
 defined('DOOR_BELL') || die('enter only with log in');
 $store= new Garden\Store('garden');
-
 $fileName = 'planting';
+$price = 0.78;
+
+    //CACHE START
+    include DIR. '/class/Catche.php';
+    $DATA = new Catche;
+    $answer = $DATA->get();
+    $method = false === $answer ? 'API' : 'CATCHE';
+    if (false === $answer) {
+
+    //API START
+    $ch = curl_init();//object-resource
+    curl_setopt(
+    $ch, CURLOPT_URL, 
+    'https://v6.exchangerate-api.com/v6/0c5915f141c43a24cb93fe77/latest/EUR'
+    );
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $answer = curl_exec($ch);
+     // send and wait for answer(till no answ - nothing below works)
+    $answer = json_decode($answer); //from json
+    _d($answer);
+    $USD = $answer->conversion_rates->USD;
+    $DATA->set($answer); // <---- cache new data
+    } 
+    elseif(false !== $answer) {
+      $USD = $answer->conversion_rates->USD;
+    }
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
     $rawData = file_get_contents("php://input");
     $rawData = json_decode($rawData, 1); //decodes json string to object
 
@@ -27,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         /*planting a strawberry bush*/
 
-        $object = new Garden\Strawberry($store->getNewID());
+        $object = new Garden\Strawberry($store->getNewID() );
         $store->saveNewObject($object);
         
         ob_start();
@@ -64,7 +90,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             die;
         }
         foreach(range(1, $amount) as $strawberry){
-            $object = new Garden\Strawberry($store->getNewID());
+            $object = new Garden\Strawberry($store->getNewID() );
             $store->saveNewObject($object);
         }
             ob_start();
@@ -81,7 +107,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         /*planting a blueberry bush*/
 
-        $object = new Garden\Blueberry($store->getNewID());
+        $object = new Garden\Blueberry($store->getNewID() );
         $store->saveNewObject($object);
         
         ob_start();
@@ -117,7 +143,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             die;
         }
         foreach(range(1, $amount) as $blueberry){
-            $object = new Garden\Blueberry($store->getNewID());
+            $object = new Garden\Blueberry($store->getNewID() );
             $store->saveNewObject($object);
         }
         ob_start();
@@ -145,31 +171,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo $json;
         die;
     }
-
-    // //DELETING 
-    // if($rawData->delete){ 
-    //     $idToDelete = $rawData->id;
-    //     _d($idToDelete, 'remove');
-    //     $store->deleteObject($fileName, $idToDelete );
-    //     ob_start();
-    //     include __DIR__.'/list.php';
-    //     $out = ob_get_contents();
-    //     ob_end_clean();
-    //     $json = ['list' => $out];
-    //     $json = json_encode($json);
-    //     header('Content-type: application/json');
-    //     http_response_code(200);
-    //     echo $json;
-    //     die;
-    // }
-
 }
-
-// /*deleating a bush*/
-// if(isset($_POST['delete'])){
-//     $store->deleteObject($fileName, $_POST['delete'] );
-// }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -309,7 +311,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <script src="http://localhost/try/php/garden/app.js" defer></script>
 <script>const apiUrl = 'http://localhost/try/php/garden/planting';</script>
 </head>
-<body>
+<body> 
+<div class="info">The price for one bush is <?= $USD * $price ?> </div>
+<div class="info">The method is <?= $method?> </div>
 <div class="nav">
     <a href="http://localhost/try/php/garden/planting">go to plant</a>
     <a href="http://localhost/try/php/garden/removing">go to collect</a>

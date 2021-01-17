@@ -27,7 +27,6 @@ if(isset($_POST['collect'])){
     $store->collectSpecificAmount();
     Garden\APP::redirect($fileName); 
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

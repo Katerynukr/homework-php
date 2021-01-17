@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+
 if(!empty($_POST)){
     $town1 = $_POST['t1'];
     $town2 = $_POST['t2'];
