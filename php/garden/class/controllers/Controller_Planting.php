@@ -14,12 +14,11 @@ class Controller_Planting{
     public $fileName;
 
     public function __construct(){
-        _d($_SERVER['REQUEST_METHOD']);
         if($_SERVER['REQUEST_METHOD'] == 'POST') {  
             $this->store = new Store('garden');
             $this->fileName = 'planting';
             // $this->price = 0.78;
-            $this->rawData = App::$request->getContent();
+            $this->rawData = App::$request->getContent(); //gets content of input with symfony
             $this->rawData = json_decode($this->rawData, 1); //decodes json string to object
         }
     }
@@ -34,10 +33,9 @@ class Controller_Planting{
         include DIR.'/views/planting/index.php';
         $out = ob_get_contents();
         ob_end_clean();
-        
         $response->setContent($out);
-        $response->prepare(APP::$request);
-
+        // $response->prepare(APP::$request);
+        _d(APP::$request, 'action_index');
         return $response;
     }
 
@@ -50,6 +48,7 @@ class Controller_Planting{
         ob_end_clean();
         $json = ['list' => $out];
         $response = new JsonResponse($json);
+        _d($response, 'json');
         $response->prepare(APP::$request);
         return $response;
     }
@@ -68,7 +67,6 @@ class Controller_Planting{
         $response = new JsonResponse($json);
         $response->prepare(APP::$request);
         return $response;
-
     }
 
     //PLANTING MANY STRAWBERRIES SCENARIO
@@ -88,7 +86,6 @@ class Controller_Planting{
             $response = new JsonResponse($json);
             $response->prepare(APP::$request);
             return $response;
-
         }
         foreach(range(1, $amount) as $strawberry){
             $object = new Strawberry($this->store->getNewID() );
@@ -102,8 +99,7 @@ class Controller_Planting{
         $json = ['list' => $out];
         $response = new JsonResponse($json);
         $response->prepare(APP::$request);
-        return $response;
-            
+        return $response;     
     }
 
       //PLANTING SINGLE BLUEBERRY SCENARIO

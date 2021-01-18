@@ -2,7 +2,7 @@ const listOfBerries = document.querySelector('#listOfBerries');
 const buttonBerries = document.querySelector('#growBerries');
 
 document.addEventListener('DOMContentLoaded', () => {
-    axios.post(apiUrl, {
+    axios.post(apiUrl + '/list', {
             list: 1,
         })
         .then(function(response) {
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     })
 buttonBerries.addEventListener('click', () => {
-    axios.post(apiUrl, {
+    axios.post(apiUrl + '/growBerries', {
             btnGrow: 'growBerries'
         })
         .then(function(response) {

@@ -1,7 +1,9 @@
 <?php 
 namespace Garden;
 use Garden\Controllers\Controller_Planting;
+use Garden\Controllers\Controller_Growing;
 use Symfony\Component\HttpFoundation\Request;
+
 class APP{
     public static $request;
 
@@ -37,7 +39,16 @@ class APP{
             
             //404 NO PAGE
         }elseif('growing' === $uri[0]){
-            include DIR.'/growing.php';
+            if(!isset($uri[1])){
+                return(new Controller_Growing)->action_index();
+            }
+            if('list' == $uri[1]){
+                return(new Controller_Growing)->action_list();
+            }
+            if('growBerries' == $uri[1]){
+                return(new Controller_Growing)->action_grow();
+            }
+
         } elseif('removing' === $uri[0]){
             include DIR.'/removing.php';
         } 
