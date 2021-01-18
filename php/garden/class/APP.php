@@ -1,13 +1,19 @@
 <?php 
 namespace Garden;
 use Garden\Controllers\Controller_Planting;
+use Symfony\Component\HttpFoundation\Request;
 class APP{
+    public static $request;
+
+    public static function start(){
+        self::$request  = Request::createFromGlobals();
+        return self::route();
+    }
 
     //ROUTER 
     public static function route(){
         $uri = str_replace(INSTALL_FOLDER, '', $_SERVER['REQUEST_URI']); //<---replacing working tag root with ''
         $uri = explode('/' , $uri); //<---splitting a string
-        _d($uri);
 
         if('planting' == $uri[0]){
             if(!isset($uri[1])){

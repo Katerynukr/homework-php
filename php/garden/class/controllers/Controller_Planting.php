@@ -4,6 +4,8 @@ use Garden\Store;
 use Garden\Strawberry;
 use Garden\Blueberry;
 use Garden\APP;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 // defined('DOOR_BELL') || die('enter only with log in');
 
 class Controller_Planting{
@@ -17,13 +19,26 @@ class Controller_Planting{
             $this->store = new Store('garden');
             $this->fileName = 'planting';
             // $this->price = 0.78;
-            $this->rawData = file_get_contents("php://input");
+            $this->rawData = App::$request->getContent();
             $this->rawData = json_decode($this->rawData, 1); //decodes json string to object
         }
     }
     //STARTING PLANTING PAGE SCENARIO
     public function action_index(){
+        $response = new Response(
+            'Content',
+            200,
+            ['content-type' => 'text/html']
+        );
+        ob_start();
         include DIR.'/views/planting/index.php';
+        $out = ob_get_contents();
+        ob_end_clean();
+        
+        $response->setContent($out);
+        $response->prepare(APP::$request);
+
+        return $response;
     }
 
     //LIST SCENARIO
@@ -34,11 +49,9 @@ class Controller_Planting{
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
-        $json = json_encode($json);
-        header('Content-type: application/json');
-        http_response_code(200);
-        echo $json;
-        die;
+        $response = new JsonResponse($json);
+        $response->prepare(APP::$request);
+        return $response;
     }
 
     //PLANTING SINGLE STRAWBERRY SCENARIO
@@ -52,11 +65,10 @@ class Controller_Planting{
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
-        $json = json_encode($json);
-        header('Content-type: application/json');
-        http_response_code(201);
-        echo $json;
-        die;
+        $response = new JsonResponse($json);
+        $response->prepare(APP::$request);
+        return $response;
+
     }
 
     //PLANTING MANY STRAWBERRIES SCENARIO
@@ -73,11 +85,10 @@ class Controller_Planting{
             $out = ob_get_contents();
             ob_end_clean();
             $json = ['msg' => $out];
-            $json = json_encode($json);
-            header('Content-type: application/json');
-            http_response_code(400);
-            echo $json;
-            die;
+            $response = new JsonResponse($json);
+            $response->prepare(APP::$request);
+            return $response;
+
         }
         foreach(range(1, $amount) as $strawberry){
             $object = new Strawberry($this->store->getNewID() );
@@ -89,11 +100,9 @@ class Controller_Planting{
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
-        $json = json_encode($json);
-        header('Content-type: application/json');
-        http_response_code(201);
-        echo $json;
-        die;
+        $response = new JsonResponse($json);
+        $response->prepare(APP::$request);
+        return $response;
             
     }
 
@@ -108,11 +117,10 @@ class Controller_Planting{
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
-        $json = json_encode($json);
-        header('Content-type: application/json');
-        http_response_code(201);
-        echo $json;
-        die;
+        $response = new JsonResponse($json);
+        $response->prepare(APP::$request);
+        return $response;
+
     }
 
     //PLANTING MANY BLUEBERRIES SCENARIO
@@ -129,11 +137,10 @@ class Controller_Planting{
             $out = ob_get_contents();
             ob_end_clean();
             $json = ['msg' => $out];
-            $json = json_encode($json);
-            header('Content-type: application/json');
-            http_response_code(400);
-            echo $json;
-            die;
+            $response = new JsonResponse($json);
+            $response->prepare(APP::$request);
+            return $response;
+
         }
         foreach(range(1, $amount) as $blueberry){
             $object = new Blueberry($this->store->getNewID() );
@@ -145,11 +152,10 @@ class Controller_Planting{
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
-        $json = json_encode($json);
-        header('Content-type: application/json');
-        http_response_code(201);
-        echo $json;
-        die;
+        $response = new JsonResponse($json);
+        $response->prepare(APP::$request);
+        return $response;
+
     }
 
     //DELETE SCENARIO
@@ -162,11 +168,10 @@ class Controller_Planting{
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
-        $json = json_encode($json);
-        header('Content-type: application/json');
-        http_response_code(200);
-        echo $json;
-        die;
+        $response = new JsonResponse($json);
+        $response->prepare(APP::$request);
+        return $response;
+
     }
 }
 
