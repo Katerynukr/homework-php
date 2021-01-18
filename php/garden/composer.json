@@ -10,7 +10,8 @@
     ],
      "autoload":{
             "psr-4":{
-                "Garden\\": "class"
+                "Garden\\": "class",
+                "Garden\\Controllers\\": "class/controllers"
             }
         },
     "require": {}

@@ -10,7 +10,7 @@ const addNewList = () => {
     BERRIES.forEach(BERRY => {
         BERRY.querySelector('[type=button]').addEventListener('click', () => {
             const idDel = BERRY.querySelector('.btn-s').value;
-            axios.post(apiUrl, {
+            axios.post(apiUrl+'/delete', {
                     id: idDel,
                     delete: 1
                 })
@@ -28,9 +28,7 @@ const addNewList = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    axios.post(apiUrl, {
-            list: 1,
-        })
+    axios.post(apiUrl+'/list', {})
         .then(function(response) {
             // console.log(response.data);
             list.innerHTML = response.data.list;
@@ -45,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
 buttonGrowOneStraberry.addEventListener('click', () => {
-    axios.post(apiUrl, {
+    axios.post(apiUrl+'/plant_one_strawberry', {
             btnName: 'buttonGrowOneStraberry'
         })
         .then(function(response) {
@@ -59,7 +57,7 @@ buttonGrowOneStraberry.addEventListener('click', () => {
 });
 buttonGrowManyStraberry.addEventListener('click', () => {
     const numberStr = document.querySelector('[name=howMany]').value;
-    axios.post(apiUrl, {
+    axios.post(apiUrl+'/plant_many_strawberries', {
             btnName: 'buttonGrowManyStraberry',
             amount: numberStr
         })
@@ -75,7 +73,7 @@ buttonGrowManyStraberry.addEventListener('click', () => {
         });
 });
 buttonGrowOneBlueberry.addEventListener('click', () => {
-    axios.post(apiUrl, {
+    axios.post(apiUrl + '/plant_one_blueberry', {
             btnName: 'buttonGrowOneBlueberry'
         })
         .then(function(response) {
@@ -89,7 +87,7 @@ buttonGrowOneBlueberry.addEventListener('click', () => {
 });
 buttonGrowManyBlueberry.addEventListener('click', () => {
     const numberBlb = document.querySelector('[name=howMany]').value;
-    axios.post(apiUrl, {
+    axios.post(apiUrl+'/plant_many_blueberries', {
             btnName: 'buttonGrowManyBlueberry',
             amount: numberBlb
         })

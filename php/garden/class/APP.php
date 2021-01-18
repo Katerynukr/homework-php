@@ -1,15 +1,35 @@
 <?php 
 namespace Garden;
-
+use Garden\Controllers\Controller_Planting;
 class APP{
 
     //ROUTER 
     public static function route(){
         $uri = str_replace(INSTALL_FOLDER, '', $_SERVER['REQUEST_URI']); //<---replacing working tag root with ''
         $uri = explode('/' , $uri); //<---splitting a string
+        _d($uri);
 
         if('planting' == $uri[0]){
-            include DIR.'/planting.php';
+            if(!isset($uri[1])){
+                return(new Controller_Planting)->action_index();
+            }
+            if('list' == $uri[1]){
+                return(new Controller_Planting)->action_list();
+            }
+            if('delete' == $uri[1]){
+                return(new Controller_Planting)->action_delete();
+            }
+            if('plant_one_strawberry' == $uri[1]){
+                return(new Controller_Planting)->action_plantOneStrawberry();
+            } elseif('plant_many_strawberries' == $uri[1]){
+                return(new Controller_Planting)->action_plantManyStrawberries();
+            } elseif('plant_one_blueberry' == $uri[1]){
+                return(new Controller_Planting)->action_plantOneBlueberry();
+            } elseif('plant_many_blueberries' == $uri[1]){
+                return(new Controller_Planting)->action_plantManyBlueberries();
+            }
+            
+            //404 NO PAGE
         }elseif('growing' === $uri[0]){
             include DIR.'/growing.php';
         } elseif('removing' === $uri[0]){

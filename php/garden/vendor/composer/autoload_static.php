@@ -9,11 +9,16 @@ class ComposerStaticInit193f37974eda6bbd4c5b023d6a487b60
     public static $prefixLengthsPsr4 = array (
         'G' => 
         array (
+            'Garden\\Controllers\\' => 19,
             'Garden\\' => 7,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Garden\\Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/class/controllers',
+        ),
         'Garden\\' => 
         array (
             0 => __DIR__ . '/../..' . '/class',
