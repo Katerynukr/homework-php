@@ -1,6 +1,7 @@
 <?php
 namespace Garden\Controllers; 
 use Garden\Store;
+use Garden\API;
 use Garden\Strawberry;
 use Garden\Blueberry;
 use Garden\APP;
@@ -22,6 +23,7 @@ class Controller_Planting{
             $this->rawData = json_decode($this->rawData, 1); //decodes json string to object
         }
     }
+
     //STARTING PLANTING PAGE SCENARIO
     public function action_index(){
         $response = new Response(
@@ -35,29 +37,27 @@ class Controller_Planting{
         ob_end_clean();
         $response->setContent($out);
         $response->prepare(APP::$request);
-        _d(APP::$request, 'action_index');
         return $response;
     }
 
     //LIST SCENARIO
     public function action_list(){
-        $store = new Store('garden');
+        $store = $this->store;
         ob_start();
         include DIR.'/views/planting/list.php';
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
         $response = new JsonResponse($json);
-        _d($response, 'json');
         $response->prepare(APP::$request);
         return $response;
     }
 
     //PLANTING SINGLE STRAWBERRY SCENARIO
     public function action_plantOneStrawberry(){
-        $object = new Strawberry($this->store->getNewID() );
+        $USD = API::currencyAPI();
+        $object = new Strawberry($this->store->getNewID(), $USD);
         $this->store->saveNewObject($object);
-        
         ob_start();
         $store = $this->store;
         include DIR.'/views/planting/list.php';
@@ -71,6 +71,7 @@ class Controller_Planting{
 
     //PLANTING MANY STRAWBERRIES SCENARIO
     public function action_plantManyStrawberries(){
+        $USD = API::currencyAPI();
         $amount =(int) $this->rawData['amount'];
         if($amount <= 0 || $amount > 4){
             if($amount < 0 || $amount == 0 ){
@@ -88,7 +89,7 @@ class Controller_Planting{
             return $response;
         }
         foreach(range(1, $amount) as $strawberry){
-            $object = new Strawberry($this->store->getNewID() );
+            $object = new Strawberry($this->store->getNewID(), $USD);
             $this->store->saveNewObject($object);
         }
         ob_start();
@@ -104,7 +105,8 @@ class Controller_Planting{
 
       //PLANTING SINGLE BLUEBERRY SCENARIO
       public function action_plantOneBlueberry(){
-        $object = new Blueberry($this->store->getNewID() );
+        $USD = API::currencyAPI();
+        $object = new Blueberry($this->store->getNewID(), $USD );
         $this->store->saveNewObject($object);
         
         ob_start();
@@ -116,11 +118,11 @@ class Controller_Planting{
         $response = new JsonResponse($json);
         $response->prepare(APP::$request);
         return $response;
-
     }
 
     //PLANTING MANY BLUEBERRIES SCENARIO
     public function action_plantManyBlueberries(){
+        $USD = API::currencyAPI();
         $amount =(int) $this->rawData['amount'];
         if($amount <= 0 || $amount > 4){
             if($amount < 0 || $amount == 0 ){
@@ -136,10 +138,9 @@ class Controller_Planting{
             $response = new JsonResponse($json);
             $response->prepare(APP::$request);
             return $response;
-
         }
         foreach(range(1, $amount) as $blueberry){
-            $object = new Blueberry($this->store->getNewID() );
+            $object = new Blueberry($this->store->getNewID(), $USD );
             $this->store->saveNewObject($object);
         }
         ob_start();
@@ -172,28 +173,5 @@ class Controller_Planting{
 }
 
     
-// //CACHE START
-    // include DIR. '/class/Catche.php';
-    // $DATA = new Catche;
-    // $answer = $DATA->get();
-    // $method = false === $answer ? 'API' : 'CATCHE';
-    // if (false === $answer) {
 
-    // //API START
-    // $ch = curl_init();//object-resource
-    // curl_setopt(
-    // $ch, CURLOPT_URL, 
-    // 'https://v6.exchangerate-api.com/v6/0c5915f141c43a24cb93fe77/latest/EUR'
-    // );
-    // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    // $answer = curl_exec($ch);
-    //  // send and wait for answer(till no answ - nothing below works)
-    // $answer = json_decode($answer); //from json
-    // _d($answer);
-    // $USD = $answer->conversion_rates->USD;
-    // $DATA->set($answer); // <---- cache new data
-    // } 
-    // elseif(false !== $answer) {
-    //   $USD = $answer->conversion_rates->USD;
-    // }
 

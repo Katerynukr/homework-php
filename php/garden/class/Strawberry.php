@@ -6,8 +6,10 @@ class Strawberry extends Berries implements Features{
     public int $bushID = 0;
     public string $imgPath;
     public int $toGrow = 3;
+    public $price = 4.90;
+    public $priceUSD;
 
-    public function __construct( int $ID){
+    public function __construct( int $ID, $USD){
         $this->bushID = $ID;
         $rand = rand(2,4);
         if($rand == 2){
@@ -17,6 +19,7 @@ class Strawberry extends Berries implements Features{
         } else {
             $this->imgPath ='./img/strawberry4.png';
         }
+        $this->priceUSD = $this->price * $USD;
     }
 
     //OVERWRITTEN FUNCTION FROM INTERFACE
@@ -46,4 +49,5 @@ class Strawberry extends Berries implements Features{
             $this->berriesAmount -= $howMuch;
         }
     }
+   
 }

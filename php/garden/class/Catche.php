@@ -1,5 +1,5 @@
 <?php
-
+namespace Garden;
 
 class Catche {
 
