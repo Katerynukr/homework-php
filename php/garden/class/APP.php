@@ -2,6 +2,7 @@
 namespace Garden;
 use Garden\Controllers\Controller_Planting;
 use Garden\Controllers\Controller_Growing;
+use Garden\Controllers\Controller_Removing;
 use Symfony\Component\HttpFoundation\Request;
 
 class APP{

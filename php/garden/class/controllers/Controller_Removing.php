@@ -32,7 +32,7 @@ class Controller_Removing{
         $out = ob_get_contents();
         ob_end_clean();
         $response->setContent($out);
-        // $response->prepare(APP::$request);
+        $response->prepare(APP::$request);
         _d(APP::$request, 'action_index');
         return $response;
     }
@@ -51,7 +51,7 @@ class Controller_Removing{
         return $response;
     }
 
-        //COLLECT ALL BUSHES
+        //REMOVE ALL BUSHES
         public function action_removeEverything(){ 
             $this->store->delete();
             ob_start();
@@ -93,4 +93,3 @@ class Controller_Removing{
             return $response;
         }
     }
-}

@@ -34,7 +34,7 @@ class Controller_Planting{
         $out = ob_get_contents();
         ob_end_clean();
         $response->setContent($out);
-        // $response->prepare(APP::$request);
+        $response->prepare(APP::$request);
         _d(APP::$request, 'action_index');
         return $response;
     }
