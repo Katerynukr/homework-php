@@ -50,7 +50,21 @@ class APP{
             }
 
         } elseif('removing' === $uri[0]){
-            include DIR.'/removing.php';
+            if(!isset($uri[1])){
+                return(new Controller_Removing)->action_index();
+            }
+            if('list' == $uri[1]){
+                return(new Controller_Removing)->action_list();
+            }
+            if('remove_everything' == $uri[1]){
+                return(new Controller_Removing)->action_removeEverything();
+            }
+            if('collect_all_berries' == $uri[1]){
+                return(new Controller_Removing)->action_collectAllBerries();
+            }
+            if('collect_some_berries' == $uri[1]){
+                return(new Controller_Removing)->action_collectSomeBerries();
+            }
         } 
     }
 

@@ -6,7 +6,7 @@ const collectFromList = () => {
     BERRIES.forEach(BERRY => {
         BERRY.querySelector('#collectAllBerries').addEventListener('click', () => {
             const collect = BERRY.querySelector('#collectAllBerries').value;
-            axios.post(apiUrl, {
+            axios.post(apiUrl + 'collect_all_berries', {
                     id: collect,
                     delete: 1
                 })
@@ -28,7 +28,7 @@ const collectSome = () => {
             const fromBush = BERRY.querySelector('#collectSomeBerries').value;
             const howMuchBerries = BERRY.querySelector('#berryNumbers').value;
             console.log(howMuchBerries);
-            axios.post(apiUrl, {
+            axios.post(apiUrl + 'collect_some_berries', {
                     id: fromBush,
                     delete: 2,
                     howMuch : howMuchBerries
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 removeEverything.addEventListener('click', () => {
-    axios.post(apiUrl, {
+    axios.post(apiUrl + 'remove_everything', {
             btnCollect: 'removeEverything'
         })
         .then(function(response) {
