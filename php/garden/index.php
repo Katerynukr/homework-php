@@ -10,5 +10,3 @@ include __DIR__.'/bootstrap.php';
 
 
 APP::start()->send();
-
-

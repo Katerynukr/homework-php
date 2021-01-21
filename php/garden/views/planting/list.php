@@ -1,4 +1,5 @@
 <?php foreach($store->getAll() as $berry): ?>
+<?php _d($berry, 'list----')?>
 <?php _d($berry, 'obj'); ?>
         <div class="strawberry">
             <img src=<?=$berry->imgPath?>>

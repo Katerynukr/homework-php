@@ -137,8 +137,7 @@
 <script>const apiUrl = 'http://localhost/try/php/garden/planting';</script>
 </head>
 <body> 
-<!-- <div class="info">The price for one bush is <?= $USD * $price ?> </div>
-<div class="info">The method is <?= $method?> </div> -->
+
 <div class="nav">
     <a href="http://localhost/try/php/garden/planting">go to plant</a>
     <a href="http://localhost/try/php/garden/removing">go to collect</a>

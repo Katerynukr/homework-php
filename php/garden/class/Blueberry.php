@@ -7,9 +7,11 @@ class Blueberry extends Berries  implements Features{
     public string $imgPath;
     public int $toGrow = 7;
     public $price = 9.80;
+    public $name;
     public $priceUSD;
 
     public function __construct( int $ID, $USD){
+        $this->name = 'blueberry';
         $this->bushID = $ID;
         $rand = rand(1,3);
         if($rand == 2){

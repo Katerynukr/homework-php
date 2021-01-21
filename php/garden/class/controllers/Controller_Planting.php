@@ -5,6 +5,8 @@ use Garden\API;
 use Garden\Strawberry;
 use Garden\Blueberry;
 use Garden\APP;
+use Garden\StoreDB;
+use Garden\StoreJSON;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 // defined('DOOR_BELL') || die('enter only with log in');
@@ -16,7 +18,7 @@ class Controller_Planting{
 
     public function __construct(){
         if($_SERVER['REQUEST_METHOD'] == 'POST') {  
-            $this->store = new Store('garden');
+            $this->store = APP::store('garden');
             $this->fileName = 'planting';
             // $this->price = 0.78;
             $this->rawData = App::$request->getContent(); //gets content of input with symfony
@@ -34,6 +36,7 @@ class Controller_Planting{
         ob_start();
         include DIR.'/views/planting/index.php';
         $out = ob_get_contents();
+        _d($out,'aaaaa');
         ob_end_clean();
         $response->setContent($out);
         $response->prepare(APP::$request);
@@ -42,12 +45,14 @@ class Controller_Planting{
 
     //LIST SCENARIO
     public function action_list(){
-        $store = $this->store;
+        $store = APP::store('garden');
+        _d($store, 'list');
         ob_start();
         include DIR.'/views/planting/list.php';
         $out = ob_get_contents();
         ob_end_clean();
         $json = ['list' => $out];
+        _d($json, 'data');
         $response = new JsonResponse($json);
         $response->prepare(APP::$request);
         return $response;
@@ -56,8 +61,11 @@ class Controller_Planting{
     //PLANTING SINGLE STRAWBERRY SCENARIO
     public function action_plantOneStrawberry(){
         $USD = API::currencyAPI();
+        _d($USD, 'api');
         $object = new Strawberry($this->store->getNewID(), $USD);
+        _d($this->store,"_________");
         $this->store->saveNewObject($object);
+        _d($this->store,"_________1");
         ob_start();
         $store = $this->store;
         include DIR.'/views/planting/list.php';
@@ -66,6 +74,7 @@ class Controller_Planting{
         $json = ['list' => $out];
         $response = new JsonResponse($json);
         $response->prepare(APP::$request);
+        _d('adas','asd');
         return $response;
     }
 
@@ -108,7 +117,7 @@ class Controller_Planting{
         $USD = API::currencyAPI();
         $object = new Blueberry($this->store->getNewID(), $USD );
         $this->store->saveNewObject($object);
-        
+        _d($this->store, 'store');
         ob_start();
         $store = $this->store;
         include DIR.'/views/planting/list.php';

@@ -7,10 +7,21 @@ use Symfony\Component\HttpFoundation\Request;
 
 class APP{
     public static $request;
+    private static $storeSetting = 'db'; // json OR db
 
     public static function start(){
         self::$request  = Request::createFromGlobals();
         return self::route();
+    }
+
+    public static function store($type){
+        if ('json' == self::$storeSetting) {
+            return new StoreJSON($type);
+        }
+        if ('db' == self::$storeSetting) {
+            _d('db', 'from db');
+            return new StoreDB($type);
+        }
     }
 
     //ROUTER 
