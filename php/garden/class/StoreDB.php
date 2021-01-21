@@ -13,7 +13,7 @@ class StoreDB implements Store{
     public function __construct($o = null){
    
         $host = '127.0.0.1';
-        $db   = 'darzoviu_baze';
+        $db   = 'berries_baze';
         $user = 'root';
         $pass = '';
         $charset = 'utf8mb4';
@@ -51,7 +51,6 @@ class StoreDB implements Store{
             $obj->name = $row['name'];
             $array[] = $obj;
         }
-        _d($array, '$$$$$');
         return $array;
     }
 
@@ -69,9 +68,8 @@ class StoreDB implements Store{
         if($obj->name == 'blueberry'){  
             _d($obj, 'from save new obj');
             $sql = "INSERT INTO products (`berries`, `name`, `img`,	`grow`,	`price`, `priceusd`)
-            VALUES ('.$obj->berriesAmount.', '.$obj->name.' , '.$obj->imgPath.', '.$obj->toGrow.', '.$obj->price.',  '.$obj->priceUSD.');";
+            VALUES ('$obj->berriesAmount', '$obj->name' , '$obj->imgPath', '$obj->toGrow', '$obj->price',  '$obj->priceUSD');";
         }
-        _d($sql, 'finish');
         $this->pdo->query($sql); // <--- redo(not safe)!!!!!!!!! 
       
     }
@@ -80,8 +78,5 @@ class StoreDB implements Store{
         $sql = "DELETE FROM products
         WHERE id='".$id."';";
         $this->pdo->query($sql); // <--- redo(not safe)!!!!!!!!!
-    }
-
-
-    
+    }  
 }
