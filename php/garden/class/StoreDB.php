@@ -28,6 +28,7 @@ class StoreDB implements Store{
         $this->pdo = new PDO($dsn, $user, $pass, $options);
     }
 
+     //METHOD THAT GET ALL ELEMENTS FROM DB
     public function getAll(){
         //READ FROM DB
         $sql = "SELECT * FROM products
@@ -58,6 +59,7 @@ class StoreDB implements Store{
         return 2;
     }
 
+     //METHOD THAT SAVES OBJECT INTO DB
     public function saveNewObject($obj){
         if($obj->name == 'strawberry'){  
             $sql = "INSERT INTO products (`berries`, `name`, `img`,	`grow`,	`price`, `priceusd`)
@@ -72,6 +74,7 @@ class StoreDB implements Store{
       
     }
 
+    //METHOD THAT DELETES OBJECT FROM DB
     public function deleteObject($id) {
         $sql = "DELETE FROM products
         WHERE id='".$id."';";
@@ -81,7 +84,6 @@ class StoreDB implements Store{
     //METHOD THAT GROWS BERRIES ON BUSHES 
     public function grow(){
        $array = self::getAll();
-        _d($array, 'growing');
         foreach($array as $index => $berry){
             $howMuch = $berry->berriesAmount + $berry->toGrow;
             $sql = "UPDATE products
@@ -90,6 +92,37 @@ class StoreDB implements Store{
             _d($sql, 'adadasd');
             $this->pdo->query($sql);
         }
-      
+    }
+
+    //METHOD THAT DELETES ALL BUSHES 
+    public function delete(){
+        $array = self::getAll();
+        foreach($array as $index => $berry){
+            $sql = "DELETE FROM products
+            WHERE id=$berry->bushID";
+            $this->pdo->query($sql);
+        }
+    }
+
+    //METHOD THAT COLLECTS ALL BERRIES FROM ONE BUSH
+    public function collectAllBerries($idToDelete){
+        $array = self::getAll();
+        foreach($array as $index => $berry){
+            $sql = "UPDATE products
+            SET berries = 0
+            WHERE id=$idToDelete";
+            $this->pdo->query($sql);
+        }
+    }
+
+    //METHOD THAT COLLECTS SPECIFIC AMOUNT OF BERRIES FROM ONE BUSH
+    public function collectSpecificAmount($idToDelete, $amount){
+        $array = self::getAll();
+        foreach($array as $index => $berry){
+            $sql = "UPDATE products
+            SET berries = $amount
+            WHERE id=$idToDelete";
+            $this->pdo->query($sql);
+        }
     }
 }

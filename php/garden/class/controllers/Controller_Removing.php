@@ -13,7 +13,7 @@ class Controller_Removing{
 
     public function __construct(){
         if($_SERVER['REQUEST_METHOD'] == 'POST') {  
-            $this->store = new Store('garden');
+            $this->store = APP::store('garden');
             $this->fileName = 'removing';
             $this->filePlant = 'planting';
             $this->rawData = App::$request->getContent(); //gets content of input with symfony
@@ -39,7 +39,7 @@ class Controller_Removing{
 
        //LIST SCENARIO
        public function action_list(){
-        $store = new Store('garden');
+        $store = APP::store('garden');
         ob_start();
         include DIR.'/views/removing/listCollect.php';
         $out = ob_get_contents();
