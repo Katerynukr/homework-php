@@ -60,13 +60,11 @@ class StoreDB implements Store{
 
     public function saveNewObject($obj){
         if($obj->name == 'strawberry'){  
-            _d($obj->name, 'from save new obj');
             $sql = "INSERT INTO products (`berries`, `name`, `img`,	`grow`,	`price`, `priceusd`)
             VALUES ('".$obj->berriesAmount."', '".$obj->name."' , '".$obj->imgPath."', '".$obj->toGrow."', '".$obj->price."',  '".$obj->priceUSD."');";
             
         }
         if($obj->name == 'blueberry'){  
-            _d($obj, 'from save new obj');
             $sql = "INSERT INTO products (`berries`, `name`, `img`,	`grow`,	`price`, `priceusd`)
             VALUES ('$obj->berriesAmount', '$obj->name' , '$obj->imgPath', '$obj->toGrow', '$obj->price',  '$obj->priceUSD');";
         }
@@ -79,4 +77,19 @@ class StoreDB implements Store{
         WHERE id='".$id."';";
         $this->pdo->query($sql); // <--- redo(not safe)!!!!!!!!!
     }  
+
+    //METHOD THAT GROWS BERRIES ON BUSHES 
+    public function grow(){
+       $array = self::getAll();
+        _d($array, 'growing');
+        foreach($array as $index => $berry){
+            $howMuch = $berry->berriesAmount + $berry->toGrow;
+            $sql = "UPDATE products
+            SET berries = $howMuch
+            WHERE products.id = $berry->bushID";
+            _d($sql, 'adadasd');
+            $this->pdo->query($sql);
+        }
+      
+    }
 }

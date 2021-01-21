@@ -13,7 +13,7 @@ class Controller_Growing{
 
     public function __construct(){
         if($_SERVER['REQUEST_METHOD'] == 'POST') {  
-            $this->store = new Store('garden');
+            $this->store = APP::store('garden');
             $this->fileName = 'growing';
             $this->rawData = App::$request->getContent(); //gets content of input with symfony
             $this->rawData = json_decode($this->rawData, 1); //decodes json string to object
@@ -38,7 +38,7 @@ class Controller_Growing{
 
     //LIST SCENARIO
     public function action_list(){
-        $store = new Store('garden');
+        $store = APP::store('garden');
         ob_start();
         include DIR.'/views/growing/listOfBerries.php';
         $out = ob_get_contents();
