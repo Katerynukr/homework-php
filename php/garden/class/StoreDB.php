@@ -119,9 +119,11 @@ class StoreDB implements Store{
     public function collectSpecificAmount($idToDelete, $amount){
         $array = self::getAll();
         foreach($array as $index => $berry){
+            $howMuch = $berry->berriesAmount - $amount;
             $sql = "UPDATE products
-            SET berries = $amount
+            SET berries = products.berries - $amount
             WHERE id=$idToDelete";
+            _d($sql, 'adasdasdasdasdasdasdas');
             $this->pdo->query($sql);
         }
     }
