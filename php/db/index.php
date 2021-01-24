@@ -46,7 +46,9 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 
 //$sql = "SELECT CustomerName AS Name FROM clients ;"; //prints customer's name as Name
 
+//$sql = "SELECT* FROM clients GROUP BY Country;"; // prints unique cities with clients
 
+$sql = "SELECT * FROM clients GROUP BY CustomerName HAVING CustomerID > 3;";
 $stmt = $pdo->query($sql); // <--- steitmentas
 
 $dataTable = [];
