@@ -49,6 +49,7 @@ $pdo = new PDO($dsn, $user, $pass, $options);
 //$sql = "SELECT* FROM clients GROUP BY Country;"; // prints unique cities with clients
 
 $sql = "SELECT * FROM clients GROUP BY CustomerName HAVING CustomerID > 3;";
+
 $stmt = $pdo->query($sql); // <--- steitmentas
 
 $dataTable = [];
@@ -57,4 +58,4 @@ while ($row = $stmt->fetch())
     $dataTable[] = $row;
 }
 
-_d($dataTable);
+// _d($dataTable);
