@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
             addNewList();
         })
         .catch(function(error) {
-            // console.log(error.response.data.msg);
             // errorMsg.innerHTML = error.response.data.msg;
         });
     })
