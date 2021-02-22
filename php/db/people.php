@@ -15,17 +15,16 @@ $options = [
 $pdo = new PDO($dsn, $user, $pass, $options);
 
 //READING
-$sql = "SELECT * FROM `users`
-RIGHT JOIN `products`
-ON users.id=products.id
-WHERE users.name='diana'
-;";
+//$sql ="SELECT users_info.birthPlace, users_names.name, users_names.surname
+$sql ="ALTER TABLE users_info
+ADD FOREIGN KEY (userId) REFERENCES users_names(id);";
 $stmt = $pdo->query($sql); // <--- steitmentas
 
-$masyvas = [];
-while ($row = $stmt->fetch())
-{
-    $masyvas[] = $row;
-}
+// $masyvas = [];
+// while ($row = $stmt->fetch())
+// {
+//     $masyvas[] = $row;
+// }
 
-_d($masyvas);
+
+// _d($masyvas);
