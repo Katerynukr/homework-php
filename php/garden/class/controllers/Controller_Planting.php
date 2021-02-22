@@ -44,7 +44,6 @@ class Controller_Planting{
 
     //LIST SCENARIO
     public function action_list(){
-        _d('hello','jhgjg');
         $store = APP::store('garden');
         ob_start();
         include DIR.'/views/planting/list.php';

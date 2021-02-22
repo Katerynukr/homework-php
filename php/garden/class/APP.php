@@ -19,7 +19,6 @@ class APP{
             return new StoreJSON($type);
         }
         if ('db' == self::$storeSetting) {
-            _d('db', 'from db');
             return new StoreDB($type);
         }
     }

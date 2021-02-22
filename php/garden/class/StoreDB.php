@@ -89,7 +89,6 @@ class StoreDB implements Store{
             $sql = "UPDATE products
             SET berries = $howMuch
             WHERE products.id = $berry->bushID";
-            _d($sql, 'adadasd');
             $this->pdo->query($sql);
         }
     }
@@ -123,7 +122,6 @@ class StoreDB implements Store{
             $sql = "UPDATE products
             SET berries = products.berries - $amount
             WHERE id=$idToDelete";
-            _d($sql, 'adasdasdasdasdasdasdas');
             $this->pdo->query($sql);
         }
     }

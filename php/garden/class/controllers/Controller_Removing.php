@@ -33,7 +33,6 @@ class Controller_Removing{
         ob_end_clean();
         $response->setContent($out);
         $response->prepare(APP::$request);
-        _d(APP::$request, 'action_index');
         return $response;
     }
 
@@ -46,7 +45,6 @@ class Controller_Removing{
         ob_end_clean();
         $json = ['list' => $out];
         $response = new JsonResponse($json);
-        _d($response, 'json');
         $response->prepare(APP::$request);
         return $response;
     }

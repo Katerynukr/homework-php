@@ -21,7 +21,6 @@ $price = 0.78;
     $answer = curl_exec($ch);
      // send and wait for answer(till no answ - nothing below works)
     $answer = json_decode($answer); //from json
-    _d($answer);
     $USD = $answer->conversion_rates->USD;
     $DATA->set($answer); // <---- cache new data
     } 
@@ -158,7 +157,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         die;
     } elseif(isset($rawData['delete']) && $rawData['delete'] == '1'){ 
         $idToDelete = $rawData['id'];
-        _d($idToDelete, 'remove');
         $store->deleteObject($idToDelete );
         ob_start();
         include __DIR__.'/views/planting/list.php';

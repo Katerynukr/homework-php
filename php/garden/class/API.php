@@ -20,7 +20,6 @@ class API{
         $answer = curl_exec($ch);
         // send and wait for answer(till no answ - nothing below works)
         $answer = json_decode($answer); //from json
-        _d($answer);
         $USD = $answer->conversion_rates->USD;
         $DATA->set($answer); // <---- cache new data
         return $USD;

@@ -32,7 +32,6 @@ class Controller_Growing{
         ob_end_clean();
         $response->setContent($out);
         // $response->prepare(APP::$request);
-        _d(APP::$request, 'action_index');
         return $response;
     }
 
